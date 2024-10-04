@@ -1,0 +1,26 @@
+.navbar {
+  width: 100%;
+  background-color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  position: relative;
+  padding: 10px 40px;
+}
+.logo {
+  height: 60px;
+}
+.buttonContainer{
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  padding: 0 30px;
+}
+.button {
+  background-color: #fff0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #0007;
+}

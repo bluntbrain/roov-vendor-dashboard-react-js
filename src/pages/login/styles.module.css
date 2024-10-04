@@ -1,0 +1,100 @@
+.bg {
+  background-image: url("../../assets/images/login-bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  /* padding-inline: 30px; */
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  /* height: calc(100% - 60px); */
+  /* height: 100%; */
+  flex: 1;
+  background-color: rgba(237, 250, 252, 0.83);
+  backdrop-filter: blur(12px);
+  /* border-radius: 20px; */
+  justify-content: space-between;
+  padding-inline: 30px;
+  padding-bottom: 100px;
+  padding-top: 50px;
+
+  overflow: auto;
+}
+.fadeIn {
+  animation: 1s forwards fade-in ease-in-out;
+}
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+.logo {
+  height: 200px;
+  width: 260px;
+  object-fit: contain;
+}
+
+.header {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--primary);
+}
+.header2 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--primary);
+  margin-top: 30px;
+}
+.content {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000a;
+  margin-bottom: 30px;
+}
+
+.input {
+  width: 100%;
+  font-size: 10px;
+}
+
+.progress {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.location{
+  padding: 8px 12px;
+  border-radius: 100px;
+  background-color: #fff;
+  font-size: 13px ;
+  font-weight: 600;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  margin-bottom: 12px;
+  
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+.locationImg{
+  height: 14px;
+  width: 14px;
+}
+.error{
+  font-size: 13px;
+  font-weight: 600;
+  color: #f13;
+}
