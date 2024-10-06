@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Layout } from "../../components";
 
 import styles from "./styles.module.css";
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { changeHandler } from "../login/utils";
+import { Variants } from "./components/variants";
+import { IVariant } from "../../types/product.types";
+import { AddNewVariant } from "./components/add-new-variant";
+import { createProduct } from "../../apis/product.apis";
+import { UserContext } from "../../context/user-context";
+import { toast } from "react-toastify";
 
 const commonTextStyles = {
   marginTop: "20px",
@@ -19,11 +25,64 @@ export const InventorySetup = () => {
   const [subCategory, setSubCategory] = React.useState("");
   const [price, setPrice] = React.useState("");
   const [discountedPrice, setDiscountedPrice] = React.useState("");
+  const [variants, setVariants] = React.useState<IVariant[]>([]);
+  const [showAddNewVariant, setShowAddNewVariant] = React.useState(false);
+
+  const { user } = useContext(UserContext);
+
+  const handleAddNewVariant = (newVariant: IVariant) => {
+    const localVariants = [...variants, newVariant];
+    setVariants(localVariants);
+  };
+
+  const handleSubmit = async () => {
+    console.log({
+      brandName,
+      productName,
+      productDescription,
+      category,
+      subCategory,
+      price,
+      discountedPrice,
+      variants,
+    });
+
+    const res = await createProduct({
+      name: productName,
+      brand: brandName,
+      description: productDescription,
+      category,
+      subCategory,
+      price: Number(price),
+      discountedPrice: Number(discountedPrice),
+      variant: variants ?? [],
+      thumbnail: variants?.[0]?.images?.[0]?.url,
+      vendor_id: user?._id,
+    });
+
+    if (res._id) {
+      toast("Product created successfully", { type: "success" });
+    } else {
+      toast("Something went wrong", { type: "error" });
+    }
+  };
 
   return (
     <Layout style={{ display: "flex" }}>
       <div className={styles.left}>
-        <h1 className={styles.header}>Add Product</h1>
+        <div className={styles.row} style={{ justifyContent: "space-between" }}>
+          <h1 className={styles.header}>Add Product</h1>
+          <Button
+            style={{
+              marginTop: "50px",
+              width: 200,
+              border: "1px solid #1976d2",
+            }}
+            onClick={handleSubmit}
+          >
+            Submit
+          </Button>
+        </div>
         <div className={styles.row}>
           <TextField
             autoFocus
@@ -84,16 +143,24 @@ export const InventorySetup = () => {
           />
           <TextField
             value={discountedPrice}
-            onChange={(e) => changeHandler(setDiscountedPrice, e.target.value, 50)}
+            onChange={(e) =>
+              changeHandler(setDiscountedPrice, e.target.value, 50)
+            }
             className={styles.input}
             style={commonTextStyles}
             label="Discounted Price (in rupees)"
             variant="outlined"
           />
         </div>
+        <AddNewVariant
+          show={showAddNewVariant}
+          setShow={setShowAddNewVariant}
+          onSubmit={handleAddNewVariant}
+        />
       </div>
       <div className={styles.right}>
-        <h1 className={styles.subHeader}>Variants</h1>
+        <h1 className={styles.subHeader}>Variants {!variants.length && '(atleast 1 variant is required)'}</h1>
+        <Variants data={variants} setData={setVariants} />
       </div>
     </Layout>
   );

@@ -2,7 +2,7 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from "@mui/material/CircularProgress";
 import { getImageUrl } from "../../../apis/onboarding.apis";
 
 const VisuallyHiddenInput = styled("input")({
@@ -23,8 +23,14 @@ interface Props {
   title: string;
   onUpload: (url: string) => void;
   style?: React.CSSProperties;
+  displayImage?: boolean;
 }
-export default function ImageUpload({ onUpload, style, title }: Props) {
+export default function ImageUpload({
+  onUpload,
+  style,
+  title,
+  displayImage = true,
+}: Props) {
   const [loading, setLoading] = React.useState(false);
   const [image, setImage] = React.useState<File | null>(null);
 
@@ -39,7 +45,7 @@ export default function ImageUpload({ onUpload, style, title }: Props) {
         );
         return;
       }
-      setImage(file); // Send the file to onChange callback
+      displayImage && setImage(file); // Send the file to onChange callback
       uploadImage(file);
     }
   };
@@ -58,7 +64,8 @@ export default function ImageUpload({ onUpload, style, title }: Props) {
       const res = await getImageUrl(formData);
 
       if (res) {
-        console.log("File uploaded successfully:");
+        console.log("File uploaded successfully:", res);
+        onUpload(res.imageUrl ?? "");
       } else {
         console.error("File upload failed:");
       }
@@ -78,8 +85,7 @@ export default function ImageUpload({ onUpload, style, title }: Props) {
       startIcon={
         loading ? (
           <CircularProgress size={24} />
-        ) :
-        image ? (
+        ) : image ? (
           <img
             src={URL.createObjectURL(image)}
             style={{ height: 40, width: 40 }}

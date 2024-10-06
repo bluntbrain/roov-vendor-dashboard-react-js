@@ -10,6 +10,7 @@
 .row {
   display: flex;
   gap: 16px;
+  align-items: end;
 }
 .header {
   font-size: 30px;
@@ -17,8 +18,47 @@
   color: var(--primary);
 }
 .subHeader {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   /* margin: 16px 0; */
   color: #000;
+}
+
+
+.label{
+  font-size: 15px;
+  font-weight: 600;
+  color: #000;
+  width: 100px;
+  margin-top: 16px;
+}
+.sizeName{
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--primary);
+  width: 100px;
+}
+.availableQuantity{
+  font-size: 15px;
+  font-weight: 600;
+  color: #000B;
+  width: 80px;
+}
+.close{
+  height: 13px;
+  width: 13px;
+  opacity: 0;
+}
+.row:hover > .close{
+  opacity: 1;
+}
+
+.productImage{
+  height: 80px;
+  width: 80px;
+  border-radius: 5px;
+  background-color: #f1fffc;
+  border: 1px solid var(--primary);
+
+  padding: 4px;
 }

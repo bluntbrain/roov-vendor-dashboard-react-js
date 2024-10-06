@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Layout } from "../../components";
 
 import styles from "./styles.module.css";
@@ -8,6 +8,15 @@ import { EnterInfo1 } from "./components/enter-info-1";
 import { EnterInfo2 } from "./components/enter-info-2";
 import { LinearProgress } from "@mui/material";
 import { EnterInfo3 } from "./components/enter-info-3";
+import {
+  getVendorDetails,
+  sendOtp,
+  updateVendorDetails,
+  verifyOtp,
+} from "../../apis/onboarding.apis";
+import { toast } from "react-toastify";
+import { navigate, splitName } from "../../utils/helpers";
+import { UserContext } from "../../context/user-context";
 
 export const Login = () => {
   const [state, setState] = useState<
@@ -33,8 +42,7 @@ export const Login = () => {
   const [registeredName, setRegisteredName] = useState<string>("");
   const [panNumber, setPanNumber] = useState<string>("");
   const [gstNumber, setGstNumber] = useState<string>("");
-  const [lisenceNumber, setLisenceNumber] = useState<string>("");
-
+  const [licenseNumber, setLicenseNumber] = useState<string>("");
   const [images, setImages] = useState<{
     uploadedPan?: string;
     uploadedGSTCertificate?: string;
@@ -42,25 +50,78 @@ export const Login = () => {
     uploadedRentDetails?: string;
   }>({});
 
+  const { user, setUser } = useContext(UserContext);
+
+  let token = "";
+
   const handleLogin = async () => {
     setLoading(true);
-    //some api call
 
-    await handleSendOtp();
-    setState("OTP");
-    setLoading(false);
+    try {
+      const res = await sendOtp({ phoneNumber: phone });
+      if (res.status === "success") {
+        setState("OTP");
+      }
+    } catch (err) {
+      console.log(err);
+      toast("Something went wrong, please try again later", { type: "error" });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSendOtp = async () => {
-    //some api call
+    try {
+      const res = await sendOtp({ phoneNumber: phone });
+      if (res.status === "success") {
+        toast("OTP sent successfully", { type: "success" });
+      } else {
+        toast("Something went wrong, please try again later", {
+          type: "error",
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      toast("Something went wrong, please try again later", { type: "error" });
+    }
+  };
+
+  const handleVerifyVendor = async (token: string) => {
+    const res = await getVendorDetails(token);
+    if (res.firstName) {
+      const newUser = { token, ...res };
+      setUser(newUser);
+      localStorage.setItem("user", JSON.stringify(newUser));
+      navigate("");
+    } else {
+      setUser({token, _id: res._id})
+      setState("INFO1");
+    }
   };
 
   const handleSubmitOtp = async (code: string) => {
     setLoading(true);
-    //some api call
 
-    setLoading(false);
-    setState("INFO1");
+    try {
+      const res = await verifyOtp({ phoneNumber: phone, otp: code });
+      if (!!res.token) {
+        token = res.token;
+        handleVerifyVendor(res.token);
+      } else if (res.message === "Invalid OTP") {
+        toast("Invalid OTP", {
+          type: "error",
+        });
+      } else {
+        toast("Something went wrong, please try again later", {
+          type: "error",
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      toast("Something went wrong, please try again later", { type: "error" });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSubmitInfo1 = async () => {
@@ -69,6 +130,48 @@ export const Login = () => {
 
   const handleSubmitInfo2 = async () => {
     setState("INFO3");
+  };
+
+  const handleSubmitInfo3 = async () => {
+    const { firstName, middleName, lastName } = splitName(ownerName);
+    const res = await updateVendorDetails(user?._id!, {
+      firstName,
+      middleName,
+      lastName,
+      shopContact: shopContactNo,
+      shopEmail,
+      // logo,
+      address: {
+        // formattedAddress: warehouse,
+        city,
+        state,
+        country: "India",
+        zipCode: Number(pincode),
+        locality: street,
+        // coordinates: {
+        //   type: "Point",
+        //   coordinates: [coordinates.long!, coordinates.lat!],
+        // },
+      },
+      brandName: registeredName,
+      panNumber,
+      gstNumber,
+      licenseNumber,
+      uploadedPan: images.uploadedPan,
+      uploadedGSTCertificate: images.uploadedGSTCertificate,
+      uploadedLicense: images.uploadedLicense,
+      uploadedRentDetails: images.uploadedRentDetails,
+    });
+
+    if (res._id) {
+      toast("Vendor details updated successfully", { type: "success" });
+      const newUser = { token, ...res };
+      setUser(newUser);
+      localStorage.setItem("user", JSON.stringify(newUser));
+      navigate("");
+    } else {
+      toast("Something went wrong, please try again later", { type: "error" });
+    }
   };
 
   useEffect(() => {
@@ -147,7 +250,7 @@ export const Login = () => {
           <EnterInfo3
             key="enter-info-3"
             onBackPress={() => setState("INFO2")}
-            onSubmit={handleSubmitInfo1}
+            onSubmit={handleSubmitInfo3}
             {...{
               loading,
               registeredName,
@@ -156,8 +259,8 @@ export const Login = () => {
               setPanNumber,
               gstNumber,
               setGstNumber,
-              lisenceNumber,
-              setLisenceNumber,
+              licenseNumber,
+              setLicenseNumber,
               images,
               setImages,
             }}

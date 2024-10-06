@@ -1,0 +1,59 @@
+.container {
+  padding: 12px;
+  border: 1px solid var(--primary);
+  border-radius: 5px;
+  margin-top: 20px;
+  position: relative;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.colorPalette {
+  /* height: 30px;
+  width: 30px; */
+  border-radius: 4px;
+  min-width: 80px;
+  padding: 4px 8px;
+}
+
+.colorName {
+  font-size: 18px;
+  font-weight: 600;
+  color: #000c;
+  flex: 1;
+}
+
+.colorHex {
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
+}
+.close {
+  /* position: absolute;
+  top: 8px;
+  right: 8px; */
+
+  height: 15px;
+  width: 15px;
+  cursor: pointer;
+}
+.sizeContainer {
+  display: flex;
+  gap: 8px;
+  background-color: #00a4a442;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+.image {
+  height: 68px;
+  width: 68px;
+  border-radius: 5px;
+  background-color: #f1fffc;
+  border: 1px solid var(--primary);
+
+  padding: 4px;
+}

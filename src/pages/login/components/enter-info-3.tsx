@@ -21,8 +21,8 @@ interface Props {
   setPanNumber: (val: string) => void;
   gstNumber: string;
   setGstNumber: (val: string) => void;
-  lisenceNumber: string;
-  setLisenceNumber: (val: string) => void;
+  licenseNumber: string;
+  setLicenseNumber: (val: string) => void;
   onSubmit: () => void;
   images: TImages;
   setImages: React.Dispatch<React.SetStateAction<TImages>>;
@@ -36,8 +36,8 @@ export const EnterInfo3 = ({
   setPanNumber,
   gstNumber,
   setGstNumber,
-  lisenceNumber,
-  setLisenceNumber,
+  licenseNumber,
+  setLicenseNumber,
   images,
   setImages,
   onSubmit,
@@ -48,7 +48,7 @@ export const EnterInfo3 = ({
     !registeredName ||
     !panNumber ||
     !gstNumber ||
-    !lisenceNumber ||
+    !licenseNumber ||
     !images.uploadedPan ||
     !images.uploadedGSTCertificate ||
     !images.uploadedLicense ||
@@ -92,8 +92,8 @@ export const EnterInfo3 = ({
         />
         <TextField
           autoFocus
-          value={lisenceNumber}
-          onChange={(e) => changeHandler(setLisenceNumber, e.target.value, 50)}
+          value={licenseNumber}
+          onChange={(e) => changeHandler(setLicenseNumber, e.target.value, 50)}
           className={styles.input}
           style={{ marginTop: "20px", backgroundColor: "#fff" }}
           label="Lisence Number"

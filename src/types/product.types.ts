@@ -29,7 +29,7 @@ export interface IProduct {
   tags?: string[];
   category?: string;
   subCategory?: string;
-  vendor_id?: string;
-  thumbnail?: string;
+  vendor_id: string;
+  thumbnail: string;
   variant?: IVariant[];
 }

@@ -1,6 +1,7 @@
 import React from "react";
+import { IVendor } from "../types/vendor.types";
 
-export interface IUserContext {
+export interface IUserContext extends IVendor {
   token?: string;
 }
 export type TWishlistReord = Record<string, boolean>;

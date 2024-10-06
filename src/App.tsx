@@ -3,16 +3,17 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { navigate } from "./utils/helpers";
 
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
 import { Login } from "./pages/login";
 import { Home } from "./pages/home";
-import "react-toastify/dist/ReactToastify.css";
-import { UserContext } from "./context/user-context";
 import { InventorySetup } from "./pages/inventory-setup";
+import { Orders } from "./pages/orders";
+import { UserContext } from "./context/user-context";
 
 function App() {
-  const [user, setUser] = React.useState<any>({});
+  const [user, setUser] = React.useState<{ token?: string }>({});
 
   const navigateToLogin = () => {
     if (window.location.pathname !== "/login") {
@@ -20,8 +21,8 @@ function App() {
     }
   };
   React.useEffect(() => {
-    return
-    const userFromLocalStorage = localStorage.getItem("user") ?? ''
+    // return
+    const userFromLocalStorage = localStorage.getItem("user") ?? "";
 
     if (userFromLocalStorage) {
       const parsedUser = JSON.parse(userFromLocalStorage);
@@ -49,6 +50,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/inventory-setup" element={<InventorySetup />} />
+              <Route path="/orders" element={<Orders />} />
               <Route path="/login" element={<Login />} />
             </Routes>
           </UserContext.Provider>
