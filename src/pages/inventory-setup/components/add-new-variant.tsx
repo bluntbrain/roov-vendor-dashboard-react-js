@@ -25,7 +25,11 @@ export const AddNewVariant = ({ show, setShow, onSubmit }: Props) => {
   const [size, setSize] = useState("");
   const [quantity, setQuantity] = useState("");
 
-  const disabled = !variant.color?.name || !variant.color?.hex;
+  const disabled =
+    !variant.color?.name ||
+    !variant.color?.hex ||
+    !variant.sizes?.length ||
+    !variant.images?.length;
 
   const handleColorNameChange = (name: string = "") => {
     setVariant({ ...variant, color: { ...variant.color, name } });
@@ -44,6 +48,7 @@ export const AddNewVariant = ({ show, setShow, onSubmit }: Props) => {
   };
 
   const handleNewSize = () => {
+    if (!size || !quantity) return;
     setVariant({
       ...variant,
       sizes: [

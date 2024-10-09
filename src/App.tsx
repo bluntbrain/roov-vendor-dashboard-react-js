@@ -11,6 +11,7 @@ import { Home } from "./pages/home";
 import { InventorySetup } from "./pages/inventory-setup";
 import { Orders } from "./pages/orders";
 import { UserContext } from "./context/user-context";
+import { Inventory } from "./pages/inventory";
 
 function App() {
   const [user, setUser] = React.useState<{ token?: string }>({});
@@ -50,6 +51,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/inventory-setup" element={<InventorySetup />} />
+              <Route path="/inventory" element={<Inventory />} />
               <Route path="/orders" element={<Orders />} />
               <Route path="/login" element={<Login />} />
             </Routes>

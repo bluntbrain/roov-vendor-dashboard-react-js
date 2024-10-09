@@ -10,6 +10,7 @@ import { AddNewVariant } from "./components/add-new-variant";
 import { createProduct } from "../../apis/product.apis";
 import { UserContext } from "../../context/user-context";
 import { toast } from "react-toastify";
+import { navigate } from "../../utils/helpers";
 
 const commonTextStyles = {
   marginTop: "20px",
@@ -60,12 +61,15 @@ export const InventorySetup = () => {
       vendor_id: user?._id,
     });
 
-    if (res._id) {
+    if (res.data?._id) {
       toast("Product created successfully", { type: "success" });
+      navigate("inventory");
     } else {
       toast("Something went wrong", { type: "error" });
     }
   };
+
+  const buttonDisabled = !brandName || !productName || !category || !price || !variants.length;
 
   return (
     <Layout style={{ display: "flex" }}>
@@ -76,8 +80,9 @@ export const InventorySetup = () => {
             style={{
               marginTop: "50px",
               width: 200,
-              border: "1px solid #1976d2",
+              border:buttonDisabled ? "1px solid #0004" : "1px solid #1976d2",
             }}
+            disabled={buttonDisabled}
             onClick={handleSubmit}
           >
             Submit

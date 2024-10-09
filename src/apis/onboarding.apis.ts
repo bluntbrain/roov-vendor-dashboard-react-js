@@ -1,6 +1,6 @@
 import { IVendor } from "../types/vendor.types";
 import callAPI from "../utils/callAPI";
-import { BASE_URL } from "../utils/constants copy";
+import { BASE_URL } from "../utils/constants";
 
 export const getImageUrl = async (
   body: FormData

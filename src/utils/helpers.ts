@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const navigate = (url: string = "") => {
   window.location.href = "/" + url;
 };
@@ -34,4 +36,9 @@ export const splitName = (fullName: string) => {
       lastName: nameArray[namePartsCount - 1],
     };
   }
+};
+
+export const formatDateTime = (isoString?: string) => {
+  if (!isoString) return "";
+  return moment(isoString).format("DD MMM, h:mm a");
 };

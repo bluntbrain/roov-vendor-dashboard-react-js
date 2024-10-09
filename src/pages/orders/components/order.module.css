@@ -1,0 +1,61 @@
+.orderContainer {
+  border-radius: 12px;
+  border: 1px solid var(--primary);
+  width: 400px;
+  min-width: 400px;
+  min-height: 150px;
+  padding: 12px;
+  margin: 0 12px 12px 0;
+}
+
+.orderId {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary);
+}
+.price {
+  font-size: 16px;
+  font-weight: 700;
+  color: #000;
+}
+.date {
+  font-size: 15px;
+  font-weight: 700;
+  color: #000a;
+}
+
+.box {
+  height: 40px;
+  width: 40px;
+  margin-right: 12px;
+}
+
+.itemContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-x: auto;
+  margin-top: 12px;
+}
+.itemImage {
+  height: 70px;
+  width: 70px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.paymentRow{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 6px 16px;
+}
