@@ -5,7 +5,7 @@ import { BASE_URL } from "../utils/constants";
 export const getImageUrl = async (
   body: FormData
 ): Promise<{ imageUrl?: string; success?: boolean }> => {
-  const response = await fetch("http://13.200.54.218/api/v1/upload", {
+  const response = await fetch(`${BASE_URL}/api/v1/upload`, {
     method: "POST",
     body,
   });
