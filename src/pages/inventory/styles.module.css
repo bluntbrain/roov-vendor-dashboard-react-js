@@ -124,3 +124,16 @@
   border-radius: 8px;
   margin-top: 16px;
 }
+
+.input {
+  border: none;
+  background: none;
+  display: block;
+  resize: none;
+}
+
+.input:focus {
+  border: 1px solid #007BFF; /* Change to your desired border color */
+  outline: none; /* Remove default outline */
+  background-color: #f0f8ff; /* Optional background color on focus */
+}

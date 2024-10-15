@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { IProduct, IVariant } from "../../../types/product.types";
 
 import styles from "../styles.module.css";
@@ -7,7 +7,11 @@ import add from "../../../assets/icons/add.png";
 import ImageUpload from "../../login/components/image-upload";
 import plus from "../../../assets/icons/plus.png";
 import minus from "../../../assets/icons/remove.png";
-import { updateQuantity, updateVariant } from "../../../apis/product.apis";
+import {
+  updateProduct,
+  updateQuantity,
+  updateVariant,
+} from "../../../apis/product.apis";
 import { toast } from "react-toastify";
 
 interface Props {
@@ -15,6 +19,31 @@ interface Props {
   updateProducts: () => void;
 }
 export const Product = ({ data, updateProducts }: Props) => {
+  const [editableProduct, setEditableProduct] = useState({
+    name: data.name || "",
+    brand: data.brand || "",
+    description: data.description || "",
+    price: data.price || 0,
+    discountedPrice: data.discountedPrice || 0,
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setEditableProduct({ ...editableProduct, [name]: value });
+  };
+
+  const handleUpdateProduct = async () => {
+    const updatedProduct = { ...editableProduct };
+    const res = await updateProduct(updatedProduct, data?._id ?? "");
+
+    if (res.data._id) {
+      toast("Product updated successfully", { type: "success" });
+      updateProducts(); // refresh product list
+    } else {
+      toast("Error updating product", { type: "error" });
+    }
+  };
+
   const handleRemoveImage = async (variant: IVariant, index: number) => {
     const newImages = variant.images?.filter((_, i) => i !== index);
     const newVariant = { ...variant, images: newImages };
@@ -81,13 +110,51 @@ export const Product = ({ data, updateProducts }: Props) => {
       <div className={styles.row}>
         <img src={data.thumbnail} alt="" className={styles.image} />
         <div>
-          <h2 className={styles.name}>{data.name}</h2>
-          <h3 className={styles.brand}>{data.brand}</h3>
-          <h4 className={styles.description}>{data.description}</h4>
+          <input
+            name="name"
+            value={editableProduct.name}
+            onChange={handleChange}
+            onBlur={handleUpdateProduct}
+            className={styles.name + " " + styles.input}
+          />
+
+          <input
+            name="brand"
+            value={editableProduct.brand}
+            onChange={handleChange}
+            onBlur={handleUpdateProduct}
+            className={styles.brand + " " + styles.input}
+          />
+
+          <textarea
+            name="description"
+            value={editableProduct.description}
+            onChange={handleChange}
+            onBlur={handleUpdateProduct}
+            className={styles.description + " " + styles.input}
+          />
           <div className={styles.row} style={{ marginTop: 10 }}>
-            <h4 className={styles.price}>Price: ₹{data.price}</h4>
             <h4 className={styles.price}>
-              Discounted Price: ₹{data.discountedPrice}
+              Price: ₹
+              <input
+                name="price"
+                value={editableProduct.price}
+                onChange={handleChange}
+                onBlur={handleUpdateProduct}
+                className={styles.input}
+                style={{ display: "inline" }}
+              />
+            </h4>
+            <h4 className={styles.price}>
+              Discounted Price: ₹
+              <input
+                name="discountedPrice"
+                value={editableProduct.discountedPrice}
+                onChange={handleChange}
+                onBlur={handleUpdateProduct}
+                className={styles.input}
+                style={{ display: "inline" }}
+              />
             </h4>
           </div>
         </div>

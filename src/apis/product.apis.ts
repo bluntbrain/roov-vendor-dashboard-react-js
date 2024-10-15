@@ -11,6 +11,14 @@ export const createProduct = (body: Partial<IProduct>) => {
     body
   );
 };
+export const updateProduct = (body: Partial<IProduct>, productId: string) => {
+  return callAPI<{ data: IProduct }>(
+    BASE_URL,
+    "/api/v1/product/" + productId,
+    "put",
+    body
+  );
+};
 
 export const getProductByVendorId = (vendorId: string, page: number = 1) => {
   return callAPI<PaginatedResponse<IProduct>>(
