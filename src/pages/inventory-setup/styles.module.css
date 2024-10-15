@@ -62,3 +62,153 @@
 
   padding: 4px;
 }
+
+.inventorySetupContainer {
+  display: flex;
+  gap: 32px;
+  padding: 32px;
+  background-color: #f5f7fa;
+  min-height: calc(100vh - 64px);
+}
+
+.formSection {
+  flex: 1;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.variantsSection {
+  width: 400px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: calc(100vh - 128px);
+}
+
+.header {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 24px;
+}
+
+.subHeader {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.formGrid {
+  display: flex;
+  flex-direction: column;
+}
+
+.submitButton {
+  margin-top: 24px !important;
+  width: 100%;
+}
+
+.variantNote {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+.addVariantButton {
+  margin-top: 24px !important;
+  width: 100%;
+}
+
+.addVariantForm {
+  background-color: #f5f7fa;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 24px;
+}
+
+.variantFormTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.variantFormGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.colorPreview {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  margin-top: 8px;
+}
+
+.variantImageSection {
+  margin-top: 24px;
+}
+
+.variantSectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.variantImageGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.variantImage {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.addVariantSubmitButton {
+  margin-top: 24px !important;
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  width: 100px;
+}
+
+.sizeName, .availableQuantity {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.colorPickerContainer {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.colorPicker {
+  position: absolute;
+  z-index: 2;
+  top: 100%;
+  left: 0;
+}

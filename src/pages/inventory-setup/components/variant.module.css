@@ -1,0 +1,94 @@
+.variantsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.variantItem {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.variantHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.colorPalette {
+  padding: 6px 12px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.colorHex {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.colorName {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  flex: 1;
+  margin-left: 12px;
+}
+
+.closeIcon {
+  cursor: pointer;
+  color: #666;
+  transition: color 0.3s ease;
+}
+
+.closeIcon:hover {
+  color: #ff4141;
+}
+
+.sizeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.sizeItem {
+  background-color: #e0f2f1;
+  padding: 6px 8px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.sizeName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #00796b;
+  display: block;
+}
+
+.quantity {
+  font-size: 12px;
+  color: #4db6ac;
+  display: block;
+  margin-top: 2px;
+}
+
+.variantImageGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  gap: 8px;
+}
+
+.variantImage {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+}

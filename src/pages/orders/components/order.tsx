@@ -10,62 +10,69 @@ import { toast } from "react-toastify";
 interface Props {
   data: IOrder;
   onClick: () => void;
+  isSelected: boolean;
 }
-export const Order = ({ data, onClick }: Props) => {
-  const handleOrderApproval = async (approvalStatus: boolean) => {
+
+export const Order = ({ data, onClick, isSelected }: Props) => {
+  const handleOrderApproval = async (
+    approvalStatus: boolean,
+    e: React.MouseEvent
+  ) => {
+    e.stopPropagation();
     const res = await changeOrderStatus(data._id ?? "", { approvalStatus });
     if (res.order?._id) {
-      toast("Order " + approvalStatus ? "Accepted" : "Rejected");
+      toast("Order " + (approvalStatus ? "Accepted" : "Rejected"));
     } else {
       toast("Something went wrong", { type: "error" });
     }
   };
 
   return (
-    <div className={styles.orderContainer} onClick={onClick}>
-      <div
-        style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}
-      >
+    <div
+      className={`${styles.orderContainer} ${
+        isSelected ? styles.selected : ""
+      }`}
+      onClick={onClick}
+    >
+      <div className={styles.orderHeader}>
         <img src={box} alt="" className={styles.box} />
-        <div>
-          <h6 className={styles.orderId}>{data?.razorPayOrderId}</h6>
-          <h5 className={styles.date}>{formatDateTime(data?.createdAt)}</h5>
-          <h5 className={styles.price}>₹ {data?.totalAmount}</h5>
+        <div className={styles.orderInfo}>
+          <span className={styles.orderId}>{data?._id}</span>
+          <span className={styles.date}>{formatDateTime(data?.createdAt)}</span>
         </div>
+        <span className={styles.price}>₹ {data?.totalAmount}</span>
       </div>
       <div className={styles.itemContainer}>
-        {data?.items?.map((item, index) => (
-          <div key={index}>
-            <img
-              src={item.productId?.thumbnail}
-              alt=""
-              className={styles.itemImage}
-            />
-          </div>
+        {data?.items?.slice(0, 3).map((item, index) => (
+          <img
+            key={index}
+            src={item.productId?.thumbnail}
+            alt=""
+            className={styles.itemImage}
+          />
         ))}
+        {data?.items && data.items.length > 3 && (
+          <div className={styles.moreItems}>+{data.items.length - 3}</div>
+        )}
       </div>
-      {data.status == "PENDING" ? (
-        <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+      {data.status === "PENDING" ? (
+        <div className={styles.actionButtons}>
           <button
-            className={styles.button}
-            style={{ backgroundColor: "#4CAF50" }}
-            onClick={() => handleOrderApproval(true)}
+            className={`${styles.button} ${styles.acceptButton}`}
+            onClick={(e) => handleOrderApproval(true, e)}
           >
             Accept
           </button>
           <button
-            className={styles.button}
-            style={{ backgroundColor: "#FF4141" }}
-            onClick={() => handleOrderApproval(false)}
+            className={`${styles.button} ${styles.rejectButton}`}
+            onClick={(e) => handleOrderApproval(false, e)}
           >
             Reject
           </button>
         </div>
       ) : (
-        <div style={{ display: "flex", marginTop: "10px" }}>
-          <div className={styles.button} style={{ backgroundColor: "#4CAF50" }}>
-            Order Accepted
-          </div>
+        <div className={styles.statusBadge}>
+          {data.status === "IN_TRANSIT" ? "In Transit" : "Completed"}
         </div>
       )}
     </div>

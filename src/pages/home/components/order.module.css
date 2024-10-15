@@ -1,51 +1,122 @@
 .orderContainer {
-  border-radius: 12px;
-  border: 1px solid var(--primary);
-  width: 400px;
-  min-width: 400px;
-  min-height: 150px;
-  padding: 12px;
-  margin: 0 12px 12px 0;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.orderHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.boxIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.orderInfo {
+  flex-grow: 1;
+  margin-left: 12px;
+  display: flex;
+  flex-direction: column;
 }
 
 .orderId {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--primary);
 }
+
+.date {
+  font-size: 12px;
+  color: #666;
+  margin-top: 2px;
+}
+
 .price {
   font-size: 16px;
   font-weight: 700;
   color: #000;
 }
-.date {
-  font-size: 15px;
-  font-weight: 700;
-  color: #000a;
-}
-
-.box {
-  height: 40px;
-  width: 40px;
-  margin-right: 12px;
-}
 
 .itemContainer {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   overflow-x: auto;
+  padding-bottom: 4px;
 }
+
 .itemImage {
-  height: 70px;
-  width: 70px;
+  height: 50px;
+  width: 50px;
   object-fit: cover;
-  border-radius: 5px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.moreItems {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 50px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.orderFooter {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 8px;
 }
 
 .button {
   padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 13px;
+  border-radius: 4px;
+  font-size: 14px;
   font-weight: 600;
   color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.acceptButton {
+  background-color: #4CAF50;
+}
+
+.acceptButton:hover {
+  background-color: #45a049;
+}
+
+.rejectButton {
+  background-color: #FF4141;
+}
+
+.rejectButton:hover {
+  background-color: #e63939;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 6px 12px;
+  background-color: #4CAF50;
+  color: #fff;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
 }
