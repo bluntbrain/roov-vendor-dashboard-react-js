@@ -7,8 +7,8 @@ import { UserContext } from "../../context/user-context";
 export const Navbar = () => {
   const [activePath, setActivePath] = useState(window.location.pathname);
 
-  const {user} = useContext(UserContext);
-  
+  const { user } = useContext(UserContext);
+
   useEffect(() => {
     const handleLocationChange = () => {
       setActivePath(window.location.pathname);
@@ -29,6 +29,9 @@ export const Navbar = () => {
   return (
     <nav className={styles.navbar}>
       <img src={logo} alt="logo" className={styles.logo} />
+      {user.isAdmin && (
+        <h3 style={{ fontSize: "24px", color: "var(--primary" }}>Admin</h3>
+      )}
       <div className={styles.buttonContainer}>
         <button
           className={styles.button}
@@ -37,20 +40,24 @@ export const Navbar = () => {
         >
           Home
         </button>
-        <button
-          className={styles.button}
-          style={{ color: activePath === "/inventory" ? "#000" : "#0007" }}
-          onClick={() => handleNavigation("inventory")}
-        >
-          Inventory
-        </button>
-        <button
-          className={styles.button}
-          style={{ color: activePath === "/orders" ? "#000" : "#0007" }}
-          onClick={() => handleNavigation("orders")}
-        >
-          Orders
-        </button>
+        {!user.isAdmin && (
+          <>
+            <button
+              className={styles.button}
+              style={{ color: activePath === "/inventory" ? "#000" : "#0007" }}
+              onClick={() => handleNavigation("inventory")}
+            >
+              Inventory
+            </button>
+            <button
+              className={styles.button}
+              style={{ color: activePath === "/orders" ? "#000" : "#0007" }}
+              onClick={() => handleNavigation("orders")}
+            >
+              Orders
+            </button>
+          </>
+        )}
       </div>
     </nav>
   );

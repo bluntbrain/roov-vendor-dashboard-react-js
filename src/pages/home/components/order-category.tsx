@@ -29,7 +29,7 @@ export const OrderCategory = ({ status, title, refresh }: Props) => {
 
   const fetchOrders = async (pg: number) => {
     console.log(user);
-    const res = true
+    const res = user?.isAdmin
       ? await getAllOrders(token, pg, status)
       : await getOrders(token, pg, status);
     if (res.docs.length) {
