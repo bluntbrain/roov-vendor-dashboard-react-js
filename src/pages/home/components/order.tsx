@@ -88,7 +88,7 @@ export const Order = ({ data, refresh }: Props) => {
               Reject
             </button>
           </div>
-        ) : data.status === "MERCHANT_ACCEPTED" && user.isAdmin ? (
+        ) : data.status === "MERCHANT_ACCEPTED" ? (
           <button
             className={`${styles.button} ${styles.acceptButton}`}
             onClick={() => handleAdminOrderChange("IN_TRANSIT")} // You might want to modify this handler for transit.
