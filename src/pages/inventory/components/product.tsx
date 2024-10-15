@@ -28,7 +28,9 @@ export const Product = ({ data, updateProducts }: Props) => {
     discountedPrice: data.discountedPrice || 0,
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setEditableProduct({ ...editableProduct, [name]: value });
   };
@@ -125,7 +127,7 @@ export const Product = ({ data, updateProducts }: Props) => {
     <div className={styles.productCard}>
       <div className={styles.productHeader}>
         <img src={data.thumbnail} alt="" className={styles.productImage} />
-        <div style={{marginLeft: "10px"}}>
+        <div style={{ marginLeft: "10px" }}>
           <input
             name="name"
             value={editableProduct.name}

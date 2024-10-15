@@ -57,7 +57,11 @@ export const updateQuantity = (body: {
 export const getOrders = (
   token: string,
   page: number = 1,
-  status?: "PENDING" | "IN_TRANSIT" | "COMPLETED" | "MERCHANT_ACCEPTED"
+  status?: | "PENDING"
+  | "IN_TRANSIT"
+  | "DELIVERED"
+  | "MERCHANT_ACCEPTED"
+  | "MERCHANT_REJECTED"
 ) => {
   let queryParams = "";
   if (!!status) {
@@ -74,7 +78,11 @@ export const getOrders = (
 export const getAllOrders = (
   token: string,
   page: number = 1,
-  status?: "PENDING" | "IN_TRANSIT" | "COMPLETED" | "MERCHANT_ACCEPTED"
+  status?: | "PENDING"
+  | "IN_TRANSIT"
+  | "DELIVERED"
+  | "MERCHANT_ACCEPTED"
+  | "MERCHANT_REJECTED"
 ) => {
   let queryParams = "";
   if (!!status) {
