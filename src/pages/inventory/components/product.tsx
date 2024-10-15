@@ -38,8 +38,8 @@ export const Product = ({ data, updateProducts }: Props) => {
     const res = await updateProduct(updatedProduct, data?._id ?? "");
 
     if (res.data._id) {
-      toast("Product updated successfully", { type: "success" });
-      updateProducts(); // refresh product list
+      // toast("Product updated successfully", { type: "success" });
+      // updateProducts(); // refresh product list
     } else {
       toast("Error updating product", { type: "error" });
     }
@@ -122,10 +122,10 @@ export const Product = ({ data, updateProducts }: Props) => {
   };
 
   return (
-    <div className={styles.product_container}>
-      <div className={styles.row}>
-        <img src={data.thumbnail} alt="" className={styles.image} />
-        <div>
+    <div className={styles.productCard}>
+      <div className={styles.productHeader}>
+        <img src={data.thumbnail} alt="" className={styles.productImage} />
+        <div style={{marginLeft: "10px"}}>
           <input
             name="name"
             value={editableProduct.name}

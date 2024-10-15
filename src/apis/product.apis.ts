@@ -71,6 +71,23 @@ export const getOrders = (
     token
   );
 };
+export const getAllOrders = (
+  token: string,
+  page: number = 1,
+  status?: "PENDING" | "IN_TRANSIT" | "COMPLETED" | "MERCHANT_ACCEPTED"
+) => {
+  let queryParams = "";
+  if (!!status) {
+    queryParams = `&status=${status}`;
+  }
+  return callAPI<PaginatedResponse<IOrder>>(
+    BASE_URL,
+    `/api/v1/order?page${page}${queryParams}`,
+    "get",
+    null,
+    token
+  );
+};
 
 interface ChangeOrderStatusBody {
   approvalStatus: boolean;
@@ -82,6 +99,20 @@ export const changeOrderStatus = (
   return callAPI<{order?: IOrder}>(
     BASE_URL,
     "/api/v1/vendor/orders/" + orderId,
+    "put",
+    body
+  );
+};
+interface AdminChangeOrderStatusBody {
+  status: string;
+}
+export const adminChangeOrderStatus = (
+  orderId: string,
+  body: AdminChangeOrderStatusBody
+) => {
+  return callAPI<{order?: IOrder}>(
+    BASE_URL,
+    "/api/v1/vendor/orders/status/" + orderId,
     "put",
     body
   );

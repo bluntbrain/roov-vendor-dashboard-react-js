@@ -1,18 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
 import { IOrder } from "../../../types/order.types";
 import { UserContext } from "../../../context/user-context";
-import { getOrders } from "../../../apis/product.apis";
+import { getAllOrders, getOrders } from "../../../apis/product.apis";
 import { Order } from "./order";
 
 import styles from "../styles.module.css";
 import { Paginator } from "../../inventory/components/paginator";
 
 interface Props {
-  status: "PENDING" | "IN_TRANSIT" | "COMPLETED" | "MERCHANT_ACCEPTED";
+  status:
+    | "PENDING"
+    | "IN_TRANSIT"
+    | "DELIVERED"
+    | "MERCHANT_ACCEPTED"
+    | "MERCHANT_REJECTED";
   title: string;
+  refresh: () => void;
 }
 
-export const OrderCategory = ({ status, title }: Props) => {
+export const OrderCategory = ({ status, title, refresh }: Props) => {
   const [orders, setOrders] = useState<IOrder[]>([]);
   const [page, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
@@ -22,7 +28,10 @@ export const OrderCategory = ({ status, title }: Props) => {
   const { token = "" } = user;
 
   const fetchOrders = async (pg: number) => {
-    const res = await getOrders(token, pg, status);
+    console.log(user);
+    const res = true
+      ? await getAllOrders(token, pg, status)
+      : await getOrders(token, pg, status);
     if (res.docs.length) {
       setOrders(res.docs);
       setHasNextPage(res.hasNextPage);
@@ -41,7 +50,7 @@ export const OrderCategory = ({ status, title }: Props) => {
       {orders.length ? (
         <div className={styles.orderList}>
           {orders.map((order, index) => (
-            <Order key={index} data={order} />
+            <Order key={index} data={order} refresh={refresh} />
           ))}
         </div>
       ) : (

@@ -3,20 +3,13 @@ type Params = {
   headers?: boolean;
 };
 
-type CallAPIResponse<T, P extends Params | undefined> = P extends {
-  headers: true;
-}
-  ? { data: T; headers: Headers }
-  : T;
-
-const callAPI = async <T = any, P extends Params | undefined = undefined>(
+const callAPI = async <T>(
   baseURL: string,
   endpoint: string,
   method: Method = "get",
   data?: any,
   token?: string,
-  params?: P
-): Promise<CallAPIResponse<T, P>> => {
+): Promise<T> => {
   const url = `${baseURL}${endpoint}`;
 
   const headers: Record<string, string> = {
@@ -47,13 +40,7 @@ const callAPI = async <T = any, P extends Params | undefined = undefined>(
     const responseData: T = await response.json();
     console.log("callAPI response ===", responseData);
 
-    if (params?.headers) {
-      return {
-        data: responseData,
-        headers: response.headers,
-      } as CallAPIResponse<T, P>;
-    }
-    return responseData as CallAPIResponse<T, P>;
+    return responseData;
   } catch (error) {
     console.log("error in callAPI", error, url, JSON.stringify(data));
     throw error;

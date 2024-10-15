@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import logo from "../../assets/images/logo-with-tag.png";
 import { navigate } from "../../utils/helpers";
+import { UserContext } from "../../context/user-context";
 
 export const Navbar = () => {
   const [activePath, setActivePath] = useState(window.location.pathname);
 
-  // Listen for URL changes and update active path
+  const {user} = useContext(UserContext);
+  
   useEffect(() => {
     const handleLocationChange = () => {
       setActivePath(window.location.pathname);

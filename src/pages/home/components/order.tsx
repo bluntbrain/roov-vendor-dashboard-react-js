@@ -1,21 +1,49 @@
-import React from "react";
+import React, { useContext } from "react";
 import { IOrder } from "../../../types/order.types";
 import styles from "./order.module.css";
 import { formatDateTime } from "../../../utils/helpers";
 
 import box from "../../../assets/icons/box.png";
-import { changeOrderStatus } from "../../../apis/product.apis";
+import {
+  adminChangeOrderStatus,
+  changeOrderStatus,
+} from "../../../apis/product.apis";
 import { toast } from "react-toastify";
+import { UserContext } from "../../../context/user-context";
 
 interface Props {
   data: IOrder;
+  refresh: () => void;
 }
 
-export const Order = ({ data }: Props) => {
+export const Order = ({ data, refresh }: Props) => {
+  const { user } = useContext(UserContext);
+  //user.isAdmin
+
   const handleOrderApproval = async (approvalStatus: boolean) => {
     const res = await changeOrderStatus(data._id ?? "", { approvalStatus });
     if (res.order?._id) {
       toast("Order " + (approvalStatus ? "Accepted" : "Rejected"));
+      refresh();
+    } else {
+      toast("Something went wrong", { type: "error" });
+    }
+  };
+  const handleAdminOrderChange = async (
+    status:
+      | "PENDING"
+      | "IN_TRANSIT"
+      | "COMPLETED"
+      | "MERCHANT_ACCEPTED"
+      | "MERCHANT_REJECTED"
+      | "DELIVERED"
+  ) => {
+    const res = await adminChangeOrderStatus(data._id ?? "", {
+      status,
+    });
+    if (res.order?._id) {
+      toast("Order moved to " + status);
+      refresh();
     } else {
       toast("Something went wrong", { type: "error" });
     }
@@ -60,13 +88,36 @@ export const Order = ({ data }: Props) => {
               Reject
             </button>
           </div>
+        ) : data.status === "MERCHANT_ACCEPTED" ? (
+          <button
+            className={`${styles.button} ${styles.acceptButton}`}
+            onClick={() => handleAdminOrderChange("IN_TRANSIT")} // You might want to modify this handler for transit.
+          >
+            Move to Transit
+          </button>
+        ) : data.status === "IN_TRANSIT" ? (
+          <button
+            className={`${styles.button} ${styles.acceptButton}`}
+            onClick={() => handleAdminOrderChange("DELIVERED")} // You might want to modify this handler for transit.
+          >
+            Move to Delivered
+          </button>
+        ) : data.status === "MERCHANT_REJECTED" ? (
+          <div
+            className={styles.statusBadge}
+            style={{ backgroundColor: "#f00" }}
+          >
+            Rejected
+          </div>
         ) : (
           <div className={styles.statusBadge}>
             {data.status === "MERCHANT_ACCEPTED"
               ? "To Be Collected"
               : data.status === "IN_TRANSIT"
               ? "In Transit"
-              : "Delivered"}
+              : data.status === "DELIVERED"
+              ? "Delivered"
+              : "Rejected"}
           </div>
         )}
       </div>

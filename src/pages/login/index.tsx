@@ -94,7 +94,7 @@ export const Login = () => {
       localStorage.setItem("user", JSON.stringify(newUser));
       navigate("");
     } else {
-      setUser({token, _id: res._id})
+      setUser({ token, _id: res._id });
       setState("INFO1");
     }
   };
@@ -106,6 +106,13 @@ export const Login = () => {
       const res = await verifyOtp({ phoneNumber: phone, otp: code });
       if (!!res.token) {
         token = res.token;
+        if (res.isAdmin) {
+          const newUser = { token: res.token, isAdmin: true };
+          setUser(newUser);
+          localStorage.setItem("user", JSON.stringify(newUser));
+          navigate("");
+          return;
+        }
         handleVerifyVendor(res.token);
       } else if (res.message === "Invalid OTP") {
         toast("Invalid OTP", {
