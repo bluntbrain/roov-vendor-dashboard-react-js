@@ -2,7 +2,15 @@ import React, { useContext } from "react";
 import { Layout } from "../../components";
 
 import styles from "./styles.module.css";
-import { TextField, Button as MuiButton } from "@mui/material";
+import {
+  TextField,
+  Button as MuiButton,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  SelectChangeEvent,
+} from "@mui/material";
 import { changeHandler } from "../login/utils";
 import { Variants } from "./components/variants";
 import { IVariant } from "../../types/product.types";
@@ -11,6 +19,7 @@ import { createProduct } from "../../apis/product.apis";
 import { UserContext } from "../../context/user-context";
 import { toast } from "react-toastify";
 import { navigate } from "../../utils/helpers";
+import { productCategories } from "../../constants/productCategories";
 
 const commonTextStyles = {
   marginBottom: "20px",
@@ -69,7 +78,21 @@ export const InventorySetup = () => {
   };
 
   const buttonDisabled =
-    !brandName || !productName || !category || !price || !variants.length;
+    !brandName ||
+    !productName ||
+    !category ||
+    !subCategory ||
+    !price ||
+    !variants.length;
+
+  const handleCategoryChange = (event: SelectChangeEvent<string>) => {
+    setCategory(event.target.value as string);
+    setSubCategory(""); // reset subcategory when category changes
+  };
+
+  const handleSubCategoryChange = (event: SelectChangeEvent<string>) => {
+    setSubCategory(event.target.value as string);
+  };
 
   return (
     <Layout>
@@ -108,24 +131,37 @@ export const InventorySetup = () => {
               variant="outlined"
               fullWidth
             />
-            <TextField
-              value={category}
-              onChange={(e) => changeHandler(setCategory, e.target.value, 50)}
-              style={commonTextStyles}
-              label="Category"
-              variant="outlined"
-              fullWidth
-            />
-            <TextField
-              value={subCategory}
-              onChange={(e) =>
-                changeHandler(setSubCategory, e.target.value, 50)
-              }
-              style={commonTextStyles}
-              label="Sub Category"
-              variant="outlined"
-              fullWidth
-            />
+            <FormControl fullWidth style={commonTextStyles}>
+              <InputLabel>Category</InputLabel>
+              <Select
+                value={category}
+                onChange={handleCategoryChange}
+                label="Category"
+              >
+                {productCategories.map((cat) => (
+                  <MenuItem key={cat.name} value={cat.name}>
+                    {cat.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl fullWidth style={commonTextStyles}>
+              <InputLabel>Sub Category</InputLabel>
+              <Select
+                value={subCategory}
+                onChange={handleSubCategoryChange}
+                label="Sub Category"
+                disabled={!category}
+              >
+                {productCategories
+                  .find((cat) => cat.name === category)
+                  ?.subcategories.map((subCat) => (
+                    <MenuItem key={subCat} value={subCat}>
+                      {subCat}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
             <TextField
               value={price}
               onChange={(e) => changeHandler(setPrice, e.target.value, 50)}

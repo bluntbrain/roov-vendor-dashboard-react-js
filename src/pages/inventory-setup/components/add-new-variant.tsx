@@ -16,6 +16,7 @@ interface Props {
 
 export const AddNewVariant = ({ show, setShow, onSubmit }: Props) => {
   const [variant, setVariant] = useState<IVariant>({});
+  const [colorName, setColorName] = useState("");
   const [size, setSize] = useState("");
   const [quantity, setQuantity] = useState("");
   const [showColorPicker, setShowColorPicker] = useState(false);
@@ -31,8 +32,20 @@ export const AddNewVariant = ({ show, setShow, onSubmit }: Props) => {
     setVariant({
       ...variant,
       color: {
-        name: color.hex,
+        ...variant.color,
         hex: color.hex,
+      },
+    });
+  };
+
+  const handleColorNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.value;
+    setColorName(name);
+    setVariant({
+      ...variant,
+      color: {
+        ...variant.color,
+        name: name,
       },
     });
   };
@@ -41,6 +54,7 @@ export const AddNewVariant = ({ show, setShow, onSubmit }: Props) => {
     console.log({ variant });
     onSubmit(variant);
     setVariant({});
+    setColorName("");
     setSize("");
     setQuantity("");
     setShow(false);
@@ -82,6 +96,14 @@ export const AddNewVariant = ({ show, setShow, onSubmit }: Props) => {
     <div className={styles.addVariantForm}>
       <h2 className={styles.variantFormTitle}>Add New Variant</h2>
       <div className={styles.variantFormGrid}>
+        <TextField
+          value={colorName}
+          onChange={handleColorNameChange}
+          label="Color Name"
+          variant="outlined"
+          fullWidth
+          style={{ marginBottom: "16px" }}
+        />
         <div className={styles.colorPickerContainer}>
           <Button
             variant="outlined"

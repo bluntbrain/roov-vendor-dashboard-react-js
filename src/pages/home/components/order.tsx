@@ -30,7 +30,6 @@ export const Order = ({ data }: Props) => {
           <span className={styles.date}>{formatDateTime(data?.createdAt)}</span>
           <span className={styles.price}>₹ {data?.totalAmount}</span>
         </div>
-        <span className={styles.price}>₹{data?.totalAmount}</span>
       </div>
       <div className={styles.itemContainer}>
         {data?.items?.slice(0, 3).map((item, index) => (
