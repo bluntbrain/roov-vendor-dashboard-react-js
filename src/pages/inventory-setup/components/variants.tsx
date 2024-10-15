@@ -1,9 +1,8 @@
 import React from "react";
 import { IVariant } from "../../../types/product.types";
 
-import styles from "./varient.module.css";
-
-import close from "../../../assets/icons/close.png";
+import styles from "./variant.module.css";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface Props {
   data: IVariant[];
@@ -18,45 +17,42 @@ export const Variants = ({ data = [], setData }: Props) => {
   };
 
   return (
-    <div>
-      {data.map((variant, idx) => {
-        return (
-          <div key={idx} className={styles.container}>
-            <div className={styles.row}>
-              <div
-                className={styles.colorPalette}
-                style={{ backgroundColor: variant.color?.hex }}
-              >
-                <h1 className={styles.colorHex}>{variant.color?.hex}</h1>
-              </div>
-              <h1 className={styles.colorName}>{variant.color?.name}</h1>
-              <img
-                src={close}
-                alt=""
-                className={styles.close}
-                onClick={() => handleRemoveVariant(idx)}
-              />
+    <div className={styles.variantsList}>
+      {data.map((variant, idx) => (
+        <div key={idx} className={styles.variantItem}>
+          <div className={styles.variantHeader}>
+            <div
+              className={styles.colorPalette}
+              style={{ backgroundColor: variant.color?.hex }}
+            >
+              <span className={styles.colorHex}>{variant.color?.hex}</span>
             </div>
-            <div className={styles.row} style={{ marginTop: 10 }}>
-              {variant.sizes?.map((size, idx) => {
-                return (
-                  <div key={idx} className={styles.sizeContainer}>
-                    <p className={styles.size}>{size.sizeName}</p>
-                    <p className={styles.quantity}>{size.availbleQuantity}</p>
-                  </div>
-                );
-              })}
-            </div>
-            <div className={styles.row} style={{ marginTop: 10 }}>
-              {variant.images?.map((image, idx) => {
-                return (
-                  <img src={image.url} key={idx} className={styles.image} />
-                );
-              })}
-            </div>
+            <h3 className={styles.colorName}>{variant.color?.name}</h3>
+            <CloseIcon
+              className={styles.closeIcon}
+              onClick={() => handleRemoveVariant(idx)}
+            />
           </div>
-        );
-      })}
+          <div className={styles.sizeGrid}>
+            {variant.sizes?.map((size, sizeIdx) => (
+              <div key={sizeIdx} className={styles.sizeItem}>
+                <span className={styles.sizeName}>{size.sizeName}</span>
+                <span className={styles.quantity}>{size.availbleQuantity}</span>
+              </div>
+            ))}
+          </div>
+          <div className={styles.variantImageGrid}>
+            {variant.images?.map((image, imgIdx) => (
+              <img
+                src={image.url}
+                key={imgIdx}
+                className={styles.variantImage}
+                alt=""
+              />
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import styles from "../styles.module.css";
 
 interface Props {
   hasNextPage: boolean;
@@ -7,6 +7,7 @@ interface Props {
   onNextPage: () => void;
   onPreviousPage: () => void;
 }
+
 export const Paginator = ({
   hasNextPage,
   hasPreviousPage,
@@ -15,19 +16,20 @@ export const Paginator = ({
   onPreviousPage,
 }: Props) => {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 20,
-      }}
-    >
-      <button disabled={!hasPreviousPage} onClick={onPreviousPage}>
+    <div className={styles.paginator}>
+      <button
+        className={styles.paginatorButton}
+        disabled={!hasPreviousPage}
+        onClick={onPreviousPage}
+      >
         Previous
       </button>
-      <p style={{ margin: "0 10px" }}>Page {page}</p>
-      <button disabled={!hasNextPage} onClick={onNextPage}>
+      <span className={styles.pageInfo}>Page {page}</span>
+      <button
+        className={styles.paginatorButton}
+        disabled={!hasNextPage}
+        onClick={onNextPage}
+      >
         Next
       </button>
     </div>

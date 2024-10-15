@@ -10,11 +10,12 @@ import { toast } from "react-toastify";
 interface Props {
   data: IOrder;
 }
+
 export const Order = ({ data }: Props) => {
   const handleOrderApproval = async (approvalStatus: boolean) => {
     const res = await changeOrderStatus(data._id ?? "", { approvalStatus });
     if (res.order?._id) {
-      toast("Order " + approvalStatus ? "Accepted" : "Rejected");
+      toast("Order " + (approvalStatus ? "Accepted" : "Rejected"));
     } else {
       toast("Something went wrong", { type: "error" });
     }
@@ -22,51 +23,54 @@ export const Order = ({ data }: Props) => {
 
   return (
     <div className={styles.orderContainer}>
-      <div
-        style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}
-      >
-        <img src={box} alt="" className={styles.box} />
-        <div>
-          <h6 className={styles.orderId}>{data?.razorPayOrderId}</h6>
-          <h5 className={styles.date}>{formatDateTime(data?.createdAt)}</h5>
-          <h5 className={styles.price}>₹ {data?.totalAmount}</h5>
+      <div className={styles.orderHeader}>
+        <img src={box} alt="" className={styles.boxIcon} />
+        <div className={styles.orderInfo}>
+          <span className={styles.orderId}>{data?._id}</span>
+          <span className={styles.date}>{formatDateTime(data?.createdAt)}</span>
+          <span className={styles.price}>₹ {data?.totalAmount}</span>
         </div>
+        <span className={styles.price}>₹{data?.totalAmount}</span>
       </div>
       <div className={styles.itemContainer}>
-        {data?.items?.map((item, index) => (
-          <div key={index}>
-            <img
-              src={item.productId?.thumbnail}
-              alt=""
-              className={styles.itemImage}
-            />
-          </div>
+        {data?.items?.slice(0, 3).map((item, index) => (
+          <img
+            key={index}
+            src={item.productId?.thumbnail}
+            alt=""
+            className={styles.itemImage}
+          />
         ))}
+        {data?.items && data.items.length > 3 && (
+          <div className={styles.moreItems}>+{data.items.length - 3}</div>
+        )}
       </div>
-      {data.status == "PENDING" ? (
-        <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-          <button
-            className={styles.button}
-            style={{ backgroundColor: "#4CAF50" }}
-            onClick={() => handleOrderApproval(true)}
-          >
-            Accept
-          </button>
-          <button
-            className={styles.button}
-            style={{ backgroundColor: "#FF4141" }}
-            onClick={() => handleOrderApproval(false)}
-          >
-            Reject
-          </button>
-        </div>
-      ) : (
-        <div style={{ display: "flex", marginTop: "10px" }}>
-          <div className={styles.button} style={{ backgroundColor: "#4CAF50" }}>
-            Order Accepted
+      <div className={styles.orderFooter}>
+        {data.status === "PENDING" ? (
+          <div className={styles.actionButtons}>
+            <button
+              className={`${styles.button} ${styles.acceptButton}`}
+              onClick={() => handleOrderApproval(true)}
+            >
+              Accept
+            </button>
+            <button
+              className={`${styles.button} ${styles.rejectButton}`}
+              onClick={() => handleOrderApproval(false)}
+            >
+              Reject
+            </button>
           </div>
-        </div>
-      )}
+        ) : (
+          <div className={styles.statusBadge}>
+            {data.status === "MERCHANT_ACCEPTED"
+              ? "To Be Collected"
+              : data.status === "IN_TRANSIT"
+              ? "In Transit"
+              : "Delivered"}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

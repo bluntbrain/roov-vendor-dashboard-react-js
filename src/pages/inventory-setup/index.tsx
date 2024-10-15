@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Layout } from "../../components";
 
 import styles from "./styles.module.css";
-import { Button, TextField } from "@mui/material";
+import { TextField, Button as MuiButton } from "@mui/material";
 import { changeHandler } from "../login/utils";
 import { Variants } from "./components/variants";
 import { IVariant } from "../../types/product.types";
@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 import { navigate } from "../../utils/helpers";
 
 const commonTextStyles = {
-  marginTop: "20px",
+  marginBottom: "20px",
   backgroundColor: "#fff",
   width: "100%",
 };
@@ -32,8 +32,7 @@ export const InventorySetup = () => {
   const { user } = useContext(UserContext);
 
   const handleAddNewVariant = (newVariant: IVariant) => {
-    const localVariants = [...variants, newVariant];
-    setVariants(localVariants);
+    setVariants([...variants, newVariant]);
   };
 
   const handleSubmit = async () => {
@@ -69,103 +68,109 @@ export const InventorySetup = () => {
     }
   };
 
-  const buttonDisabled = !brandName || !productName || !category || !price || !variants.length;
+  const buttonDisabled =
+    !brandName || !productName || !category || !price || !variants.length;
 
   return (
-    <Layout style={{ display: "flex" }}>
-      <div className={styles.left}>
-        <div className={styles.row} style={{ justifyContent: "space-between" }}>
-          <h1 className={styles.header}>Add Product</h1>
-          <Button
-            style={{
-              marginTop: "50px",
-              width: 200,
-              border:buttonDisabled ? "1px solid #0004" : "1px solid #1976d2",
-            }}
+    <Layout>
+      <div className={styles.inventorySetupContainer}>
+        <div className={styles.formSection}>
+          <h1 className={styles.header}>Add New Product</h1>
+          <div className={styles.formGrid}>
+            <TextField
+              autoFocus
+              value={brandName}
+              onChange={(e) => changeHandler(setBrandName, e.target.value, 50)}
+              style={commonTextStyles}
+              label="Brand Name"
+              variant="outlined"
+              fullWidth
+            />
+            <TextField
+              value={productName}
+              onChange={(e) =>
+                changeHandler(setProductName, e.target.value, 50)
+              }
+              style={commonTextStyles}
+              label="Product Name"
+              variant="outlined"
+              fullWidth
+            />
+            <TextField
+              multiline
+              minRows={3}
+              value={productDescription}
+              onChange={(e) =>
+                changeHandler(setProductDescription, e.target.value, 260)
+              }
+              style={commonTextStyles}
+              label="Product Description"
+              variant="outlined"
+              fullWidth
+            />
+            <TextField
+              value={category}
+              onChange={(e) => changeHandler(setCategory, e.target.value, 50)}
+              style={commonTextStyles}
+              label="Category"
+              variant="outlined"
+              fullWidth
+            />
+            <TextField
+              value={subCategory}
+              onChange={(e) =>
+                changeHandler(setSubCategory, e.target.value, 50)
+              }
+              style={commonTextStyles}
+              label="Sub Category"
+              variant="outlined"
+              fullWidth
+            />
+            <TextField
+              value={price}
+              onChange={(e) => changeHandler(setPrice, e.target.value, 50)}
+              style={commonTextStyles}
+              label="Price (in rupees)"
+              variant="outlined"
+              type="number"
+              fullWidth
+            />
+            <TextField
+              value={discountedPrice}
+              onChange={(e) =>
+                changeHandler(setDiscountedPrice, e.target.value, 50)
+              }
+              style={commonTextStyles}
+              label="Discounted Price (in rupees)"
+              variant="outlined"
+              type="number"
+              fullWidth
+            />
+          </div>
+          <AddNewVariant
+            show={showAddNewVariant}
+            setShow={setShowAddNewVariant}
+            onSubmit={handleAddNewVariant}
+          />
+          <MuiButton
+            variant="contained"
+            color="primary"
             disabled={buttonDisabled}
             onClick={handleSubmit}
+            className={styles.submitButton}
           >
-            Submit
-          </Button>
+            Add Product
+          </MuiButton>
         </div>
-        <div className={styles.row}>
-          <TextField
-            autoFocus
-            value={brandName}
-            onChange={(e) => changeHandler(setBrandName, e.target.value, 50)}
-            className={styles.input}
-            style={commonTextStyles}
-            label="Brand Name"
-            variant="outlined"
-          />
-          <TextField
-            value={productName}
-            onChange={(e) => changeHandler(setProductName, e.target.value, 50)}
-            className={styles.input}
-            style={commonTextStyles}
-            label="Product Name"
-            variant="outlined"
-          />
+        <div className={styles.variantsSection}>
+          <h2 className={styles.subHeader}>Product Variants</h2>
+          {!variants.length && (
+            <p className={styles.variantNote}>
+              At least one variant is required
+            </p>
+          )}
+          <Variants data={variants} setData={setVariants} />
         </div>
-        <TextField
-          multiline
-          minRows={3}
-          value={productDescription}
-          onChange={(e) =>
-            changeHandler(setProductDescription, e.target.value, 260)
-          }
-          className={styles.input}
-          style={commonTextStyles}
-          label="Product Description"
-          variant="outlined"
-        />
-        <div className={styles.row}>
-          <TextField
-            value={category}
-            onChange={(e) => changeHandler(setCategory, e.target.value, 50)}
-            className={styles.input}
-            style={commonTextStyles}
-            label="Category"
-            variant="outlined"
-          />
-          <TextField
-            value={subCategory}
-            onChange={(e) => changeHandler(setSubCategory, e.target.value, 50)}
-            className={styles.input}
-            style={commonTextStyles}
-            label="Sub Category"
-            variant="outlined"
-          />
-        </div>
-        <div className={styles.row}>
-          <TextField
-            value={price}
-            onChange={(e) => changeHandler(setPrice, e.target.value, 50)}
-            className={styles.input}
-            style={commonTextStyles}
-            label="Price (in rupees)"
-            variant="outlined"
-          />
-          <TextField
-            value={discountedPrice}
-            onChange={(e) =>
-              changeHandler(setDiscountedPrice, e.target.value, 50)
-            }
-            className={styles.input}
-            style={commonTextStyles}
-            label="Discounted Price (in rupees)"
-            variant="outlined"
-          />
-        </div>
-        <AddNewVariant
-          show={showAddNewVariant}
-          setShow={setShowAddNewVariant}
-          onSubmit={handleAddNewVariant}
-        />
-      </div>
-      <div className={styles.right}>
-        <h1 className={styles.subHeader}>Variants {!variants.length && '(atleast 1 variant is required)'}</h1>
-        <Variants data={variants} setData={setVariants} />
       </div>
     </Layout>
   );

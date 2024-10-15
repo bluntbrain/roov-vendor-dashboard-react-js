@@ -1,126 +1,298 @@
-.product_container {
-  margin: 16px 16px 0;
-  border: 1px solid var(--primary);
-  background-color: #00a4a41A;
-  border-radius: 12px;
-  padding: 16px;
+.inventoryContainer {
+  padding: 32px;
+  background-color: #f5f7fa;
+  min-height: calc(100vh - 64px);
 }
 
-.row {
+.inventoryHeader {
   display: flex;
-  align-items: start;
-  justify-content: flex-start;
-  gap: 16px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
 }
 
-.image {
-  height: 120px;
-  width: 100px;
-  object-fit: cover;
-}
-
-.name {
-  font-size: 20px;
+.title {
+  font-size: 24px;
   font-weight: 700;
-  color: #000D;
+  color: #333;
 }
-.brand {
-  font-size: 15px;
+
+.addProductButton {
+  padding: 12px 24px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
   font-weight: 600;
-  color: var(--primary);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
-.description {
+
+.addProductButton:hover {
+  background-color: var(--primary-dark);
+}
+
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 32px;
+}
+
+.productCard {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+.productCard:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+}
+
+.productHeader {
+  display: flex;
+  padding: 24px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.productImage {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.productInfo {
+  margin-left: 24px;
+  flex: 1;
+}
+
+.productName {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.productBrand {
+  font-size: 16px;
+  color: var(--primary);
+  margin-bottom: 12px;
+}
+
+.productDescription {
   font-size: 14px;
-  font-weight: 500;
-  color: #000A;
+  color: #666;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.priceInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .price {
-  font-size: 14px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+}
+
+.discountedPrice {
+  font-size: 16px;
+  color: #888;
+  text-decoration: line-through;
+}
+
+.variantsSection {
+  padding: 24px;
+}
+
+.variantsTitle {
+  font-size: 16px;
   font-weight: 600;
-  color: #000D;
+  color: #333;
+  margin-bottom: 16px;
 }
 
-.variantImage{
-  height: 80px;
-  width: 80px;
-  object-fit: contain;
-  object-position: center;
-  transition: 0.3s ease;
-  border: 1px solid var(--primary);
-  border-radius: 4px;
-}
-.variantImage:hover{
-  cursor: pointer;
-  opacity: 0.3;
-}
-.variantImage:hover+.close {
-  opacity: 1;
-}
-
-.close{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  height: 15px;
-  width: 15px;
-  color: #000A;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.sizeContainer{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 16px;
-
-  height: 70px;
-  width: 80px;
-  border: 2px solid var(--primary);
-  background-color: #fff;
+.variantItem {
+  margin-bottom: 16px;
+  border: 1px solid #e0e0e0;
   border-radius: 8px;
+  overflow: hidden;
 }
 
-.header {
-  font-size: 30px;
-  font-weight: 800;
-  color: var(--primary);
-  padding-left: 16px;
-  padding-bottom: 8px;
-  margin-top: 24px;
-}
-.subHeader{
-  font-size: 14px;
-  font-weight: 600;
-  color: #000A;
-  width: 80px;
-}
-
-.newBox{
-
+.variantHeader {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-
-  height: 70px;
-  width: 80px;
-  border: 2px dashed #000;
-  background-color: #fff;
-  border-radius: 8px;
-
+  padding: 12px 16px;
+  background-color: #f5f5f5;
   cursor: pointer;
 }
-.newBox > img{
-  height: 30px;
-  width: 30px;
+
+.variantColor {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
 }
 
-.variantContainer{
-  background-color: #fff;
+.expandIcon {
+  font-size: 14px;
+  color: #666;
+}
+
+.variantDetails {
   padding: 16px;
-  border-radius: 8px;
-  margin-top: 16px;
+}
+
+.variantImages {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.variantImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.removeImage {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.sizesList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 12px;
+}
+
+.sizeItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+}
+
+.sizeName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.quantityControl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quantityButton {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.quantity {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.paginator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 32px;
+  gap: 16px;
+}
+
+.paginatorButton {
+  padding: 8px 16px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.paginatorButton:hover:not(:disabled) {
+  background-color: var(--primary-dark);
+}
+
+.paginatorButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pageInfo {
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+}
+
+.addImageButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border: 2px dashed #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.addImageButton:hover {
+  background-color: #f0f0f0;
+}
+
+.addIcon {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 4px;
+}
+
+.addImageText {
+  font-size: 12px;
+  color: #666;
+  text-align: center;
 }

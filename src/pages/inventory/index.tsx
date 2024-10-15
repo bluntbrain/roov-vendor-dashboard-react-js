@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 
 import styles from "./styles.module.css";
 import { Paginator } from "./components/paginator";
+import { navigate } from "../../utils/helpers";
 
 export const Inventory = () => {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -20,7 +21,6 @@ export const Inventory = () => {
   const fetchProducts = async (pg: number) => {
     const res = await getProductByVendorId(user._id!, pg);
 
-    console.log("products :: ", res);
     if (res.docs) {
       setProducts(res.docs);
       setHasNextPage(res.hasNextPage);
@@ -35,21 +35,31 @@ export const Inventory = () => {
 
   return (
     <Layout>
-      <h1 className={styles.header}>Products</h1>
-      {products.map((product) => {
-        return (
-          <Product
-            key={product._id}
-            data={product}
-            updateProducts={() => fetchProducts(page)}
-          />
-        );
-      })}
-      <Paginator
-        onPreviousPage={() => fetchProducts(page - 1)}
-        onNextPage={() => fetchProducts(page + 1)}
-        {...{ hasNextPage, hasPreviousPage, page }}
-      />
+      <div className={styles.inventoryContainer}>
+        <div className={styles.inventoryHeader}>
+          <h1 className={styles.title}>Inventory Management</h1>
+          <button
+            className={styles.addProductButton}
+            onClick={() => navigate("inventory-setup")}
+          >
+            Add New Product
+          </button>
+        </div>
+        <div className={styles.productGrid}>
+          {products.map((product) => (
+            <Product
+              key={product._id}
+              data={product}
+              updateProducts={() => fetchProducts(page)}
+            />
+          ))}
+        </div>
+        <Paginator
+          onPreviousPage={() => fetchProducts(page - 1)}
+          onNextPage={() => fetchProducts(page + 1)}
+          {...{ hasNextPage, hasPreviousPage, page }}
+        />
+      </div>
     </Layout>
   );
 };

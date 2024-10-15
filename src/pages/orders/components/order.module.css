@@ -1,11 +1,37 @@
 .orderContainer {
-  border-radius: 12px;
-  border: 1px solid var(--primary);
-  width: 400px;
-  min-width: 400px;
-  min-height: 150px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  width: 100%;
   padding: 12px;
-  margin: 0 12px 12px 0;
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.orderContainer:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.selected {
+  border-color: var(--primary);
+  background-color: rgba(var(--primary-rgb), 0.05);
+}
+
+.orderHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.orderInfo {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-left: 12px;
 }
 
 .orderId {
@@ -13,49 +39,99 @@
   font-weight: 600;
   color: var(--primary);
 }
+
+.date {
+  font-size: 11px;
+  color: #666;
+}
+
 .price {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
   color: #000;
 }
-.date {
-  font-size: 15px;
-  font-weight: 700;
-  color: #000a;
-}
 
 .box {
-  height: 40px;
-  width: 40px;
-  margin-right: 12px;
+  height: 30px;
+  width: 30px;
 }
 
 .itemContainer {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
+  gap: 8px;
+  margin-top: 8px;
   overflow-x: auto;
-  margin-top: 12px;
 }
+
 .itemImage {
-  height: 70px;
-  width: 70px;
+  height: 40px;
+  width: 40px;
   object-fit: cover;
-  border-radius: 5px;
+  border-radius: 4px;
+}
+
+.moreItems {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
 }
 
 .button {
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
   font-weight: 600;
   color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.paymentRow{
+.acceptButton {
+  background-color: #4CAF50;
+}
+
+.acceptButton:hover {
+  background-color: #45a049;
+}
+
+.rejectButton {
+  background-color: #FF4141;
+}
+
+.rejectButton:hover {
+  background-color: #e63939;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #4CAF50;
+  margin-top: 12px;
+}
+
+.paymentRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 6px 16px;
+  padding: 4px 0;
+  font-size: 16px;
 }

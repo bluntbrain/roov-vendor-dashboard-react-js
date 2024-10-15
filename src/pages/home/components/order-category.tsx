@@ -9,8 +9,10 @@ import { Paginator } from "../../inventory/components/paginator";
 
 interface Props {
   status: "PENDING" | "IN_TRANSIT" | "COMPLETED" | "MERCHANT_ACCEPTED";
+  title: string;
 }
-export const OrderCategory = ({ status }: Props) => {
+
+export const OrderCategory = ({ status, title }: Props) => {
   const [orders, setOrders] = useState<IOrder[]>([]);
   const [page, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
@@ -34,18 +36,10 @@ export const OrderCategory = ({ status }: Props) => {
   }, [token]);
 
   return (
-    <div style={{ paddingLeft: "16px" }}>
-      <h2 className={styles.header}>
-        {status == "PENDING"
-          ? "Available Order Requests"
-          : status == "MERCHANT_ACCEPTED"
-          ? "Running Orders - To Be Collected"
-          : status == "IN_TRANSIT"
-          ? "Running Orders - In Transit"
-          : "Running Orders - Delivered"}
-      </h2>
-      {!!orders.length ? (
-        <div style={{ overflowX: "auto", display: "flex" }}>
+    <div className={styles.orderCategory}>
+      <h2 className={styles.categoryHeader}>{title}</h2>
+      {orders.length ? (
+        <div className={styles.orderList}>
           {orders.map((order, index) => (
             <Order key={index} data={order} />
           ))}

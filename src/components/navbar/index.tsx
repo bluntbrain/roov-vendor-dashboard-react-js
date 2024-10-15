@@ -24,10 +24,6 @@ export const Navbar = () => {
     setActivePath(path);
   };
 
-  const handleLogout = () => {
-    // Handle logout logic
-  };
-
   return (
     <nav className={styles.navbar}>
       <img src={logo} alt="logo" className={styles.logo} />
@@ -52,13 +48,6 @@ export const Navbar = () => {
           onClick={() => handleNavigation("orders")}
         >
           Orders
-        </button>
-        <button
-          className={styles.button}
-          style={{ color: activePath === "/inventory-setup" ? "#000" : "#0007" }}
-          onClick={() => handleNavigation("inventory-setup")}
-        >
-          Inventory Setup
         </button>
       </div>
     </nav>
