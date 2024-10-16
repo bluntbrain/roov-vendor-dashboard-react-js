@@ -50,7 +50,9 @@ export const EnterInfo1 = ({
         />
         <TextField
           value={shopContactNo}
-          onChange={(e) => changeHandler(setShopContactNo, e.target.value, 10, 'number')}
+          onChange={(e) =>
+            changeHandler(setShopContactNo, e.target.value, 10, "number")
+          }
           className={styles.input}
           style={{ marginTop: "20px", backgroundColor: "#fff" }}
           label="Shop Contact"
@@ -73,6 +75,9 @@ export const EnterInfo1 = ({
         >
           Verify & Continue
         </Button>
+        <p className={styles.contactMessage}>
+          Contact us for any queries on +91 755 017 3284
+        </p>
       </div>
       <div />
     </div>

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { RefreshCwIcon } from "lucide-react";
 import { Button } from "../../../components/button";
-import styles from "./refresh.module.css"; // We'll create this file for the animations
+import styles from "./refresh.module.css";
 
 interface RefreshComponentProps {
   onRefresh: () => void;
@@ -35,7 +35,7 @@ export default function RefreshComponent({
     setIsRefreshing(true);
     onRefresh();
     setTimeUntilRefresh(autoRefreshInterval);
-    setTimeout(() => setIsRefreshing(false), 1000); // Reset after 1 second
+    setTimeout(() => setIsRefreshing(false), 1000);
   };
 
   const formatTime = (seconds: number) => {

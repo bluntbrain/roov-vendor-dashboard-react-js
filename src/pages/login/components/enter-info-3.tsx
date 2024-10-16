@@ -135,6 +135,9 @@ export const EnterInfo3 = ({
         >
           Submit
         </Button>
+        <p className={styles.contactMessage}>
+          Contact us for any queries on +91 755 017 3284
+        </p>
       </div>
       <div />
     </div>

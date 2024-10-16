@@ -98,3 +98,10 @@
   font-weight: 600;
   color: #f13;
 }
+
+.contactMessage {
+  margin-top: 20px;
+  font-size: 14px;
+  color: var(--primary);
+  text-align: center;
+}
