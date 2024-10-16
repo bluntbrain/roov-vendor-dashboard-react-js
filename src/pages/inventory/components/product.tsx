@@ -5,8 +5,7 @@ import styles from "../styles.module.css";
 import close from "../../../assets/icons/close.png";
 import addIcon from "../../../assets/icons/add.png"; // Make sure this icon exists in your assets
 import ImageUpload from "../../login/components/image-upload";
-import plus from "../../../assets/icons/plus.png";
-import minus from "../../../assets/icons/remove.png";
+
 import {
   updateProduct,
   updateQuantity,

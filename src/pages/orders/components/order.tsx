@@ -11,19 +11,50 @@ interface Props {
   data: IOrder;
   onClick: () => void;
   isSelected: boolean;
+  onStatusChange?: () => void;
 }
 
-export const Order = ({ data, onClick, isSelected }: Props) => {
+export const Order = ({ data, onClick, isSelected, onStatusChange }: Props) => {
   const handleOrderApproval = async (
     approvalStatus: boolean,
     e: React.MouseEvent
   ) => {
     e.stopPropagation();
-    const res = await changeOrderStatus(data._id ?? "", { approvalStatus });
-    if (res.order?._id) {
-      toast("Order " + (approvalStatus ? "Accepted" : "Rejected"));
-    } else {
-      toast("Something went wrong", { type: "error" });
+    try {
+      const res = await changeOrderStatus(data._id ?? "", { approvalStatus });
+      if (res.order?._id) {
+        toast(`Order ${approvalStatus ? "Accepted" : "Rejected"}`);
+        if (onStatusChange) {
+          onStatusChange();
+        }
+      } else {
+        toast("Something went wrong", { type: "error" });
+      }
+    } catch (error) {
+      console.error("Error changing order status:", error);
+      toast("Failed to change order status", { type: "error" });
+    }
+  };
+
+  const getStatusBadgeColor = (status: string) => {
+    switch (status) {
+      case "DELIVERED":
+        return "#4CAF50";
+      case "MERCHANT_REJECTED":
+        return "#FF4141";
+      default:
+        return "#FFA500";
+    }
+  };
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case "DELIVERED":
+        return "Delivered";
+      case "MERCHANT_REJECTED":
+        return "Rejected";
+      default:
+        return status.replace(/_/g, " ");
     }
   };
 
@@ -42,37 +73,38 @@ export const Order = ({ data, onClick, isSelected }: Props) => {
         </div>
         <span className={styles.price}>₹ {data?.totalAmount}</span>
       </div>
-      <div className={styles.itemContainer}>
-        {data?.items?.slice(0, 3).map((item, index) => (
-          <img
-            key={index}
-            src={item.productId?.thumbnail}
-            alt=""
-            className={styles.itemImage}
-          />
-        ))}
-        {data?.items && data.items.length > 3 && (
-          <div className={styles.moreItems}>+{data.items.length - 3}</div>
-        )}
+      <div className={styles.itemContainerWrapper}>
+        <div className={styles.itemContainer}>
+          {data?.items?.map((item, index) => (
+            <img
+              key={index}
+              src={item.productId?.thumbnail}
+              alt=""
+              className={styles.itemImage}
+            />
+          ))}
+        </div>
       </div>
-      {data.status === "PENDING" ? (
+      <div
+        className={styles.statusBadge}
+        style={{ backgroundColor: getStatusBadgeColor(data.status) }}
+      >
+        {getStatusText(data.status)}
+      </div>
+      {data.status === "PENDING" && (
         <div className={styles.actionButtons}>
           <button
-            className={`${styles.button} ${styles.acceptButton}`}
             onClick={(e) => handleOrderApproval(true, e)}
+            className={styles.acceptButton}
           >
             Accept
           </button>
           <button
-            className={`${styles.button} ${styles.rejectButton}`}
             onClick={(e) => handleOrderApproval(false, e)}
+            className={styles.rejectButton}
           >
             Reject
           </button>
-        </div>
-      ) : (
-        <div className={styles.statusBadge}>
-          {data.status === "IN_TRANSIT" ? "In Transit" : "Completed"}
         </div>
       )}
     </div>

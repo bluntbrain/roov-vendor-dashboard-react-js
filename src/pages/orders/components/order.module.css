@@ -22,9 +22,7 @@
 
 .orderHeader {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
 }
 
 .orderInfo {
@@ -32,6 +30,11 @@
   flex-direction: column;
   flex-grow: 1;
   margin-left: 12px;
+  margin-bottom: 20px;
+}
+
+.orderInfo p {
+  margin: 5px 0;
 }
 
 .orderId {
@@ -58,14 +61,15 @@
 
 .itemContainer {
   display: flex;
-  gap: 8px;
-  margin-top: 8px;
-  overflow-x: auto;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .itemImage {
-  height: 40px;
-  width: 40px;
+  width: 80px;
+  height: 80px;
   object-fit: cover;
   border-radius: 4px;
 }
@@ -102,18 +106,34 @@
 
 .acceptButton {
   background-color: #4CAF50;
+  padding: 10px 20px;
+  border-radius: 12px;
+  color: #fff;
+  font-weight: 600;
 }
 
 .acceptButton:hover {
   background-color: #45a049;
+  padding: 10px 20px;
+  border-radius: 12px;
+  color: #fff;
+  font-weight: 600;
 }
 
 .rejectButton {
   background-color: #FF4141;
+  padding: 10px 20px;
+  border-radius: 12px;
+  color: #fff;
+  font-weight: 600;
 }
 
 .rejectButton:hover {
   background-color: #e63939;
+  padding: 10px 20px;
+  border-radius: 12px;
+  color: #fff;
+  font-weight: 600;
 }
 
 .statusBadge {
@@ -134,4 +154,27 @@
   width: 100%;
   padding: 4px 0;
   font-size: 16px;
+}
+
+.paymentInfo {
+  margin-bottom: 20px;
+}
+
+.paymentInfo p {
+  margin: 5px 0;
+}
+
+.itemContainerWrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.itemContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 10px 0;
+  margin-top: 0;
+  margin-bottom: 0;
 }

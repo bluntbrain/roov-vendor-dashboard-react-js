@@ -98,13 +98,13 @@
 }
 
 .price {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 700;
   color: #333;
 }
 
 .discountedPrice {
-  font-size: 16px;
+  font-size: 14px;
   color: #888;
   text-decoration: line-through;
 }

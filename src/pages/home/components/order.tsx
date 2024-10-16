@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { IOrder } from "../../../types/order.types";
 import styles from "./order.module.css";
 import { formatDateTime } from "../../../utils/helpers";

@@ -96,7 +96,7 @@ export const EnterInfo3 = ({
           onChange={(e) => changeHandler(setLicenseNumber, e.target.value, 50)}
           className={styles.input}
           style={{ marginTop: "20px", backgroundColor: "#fff" }}
-          label="Lisence Number"
+          label="License Number"
           variant="outlined"
         />
         <div style={{ display: "flex", gap: "16px", marginTop: "16px" }}>
@@ -115,7 +115,7 @@ export const EnterInfo3 = ({
         </div>
         <div style={{ display: "flex", gap: "16px", marginTop: "16px" }}>
           <ImageUpload
-            title="Lisence"
+            title="License"
             onUpload={(url) =>
               setImages((prev) => ({ ...prev, uploadedLicense: url }))
             }
