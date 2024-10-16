@@ -18,7 +18,6 @@ interface Props {
 
 export const Order = ({ data, refresh }: Props) => {
   const { user } = useContext(UserContext);
-  //user.isAdmin
 
   const handleOrderApproval = async (approvalStatus: boolean) => {
     const res = await changeOrderStatus(data._id ?? "", { approvalStatus });
@@ -33,7 +32,6 @@ export const Order = ({ data, refresh }: Props) => {
     status:
       | "PENDING"
       | "IN_TRANSIT"
-      | "COMPLETED"
       | "MERCHANT_ACCEPTED"
       | "MERCHANT_REJECTED"
       | "DELIVERED"
@@ -95,7 +93,7 @@ export const Order = ({ data, refresh }: Props) => {
           >
             Move to Transit
           </button>
-        ) : data.status === "IN_TRANSIT" && user.isAdmin ? (
+        ) : data.status === "IN_TRANSIT" && user?.isAdmin ? (
           <button
             className={`${styles.button} ${styles.acceptButton}`}
             onClick={() => handleAdminOrderChange("DELIVERED")} // You might want to modify this handler for transit.

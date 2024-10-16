@@ -117,43 +117,45 @@ export const EnterInfo2 = ({
           Please enter your details to continue.
         </h3>
 
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            gap: "16px",
-            marginBottom: "20px",
-          }}
-        >
-          <TextField
-            autoFocus
-            value={coordinates.lat}
-            onChange={(e) =>
-              setCoordinates((prev) => ({
-                ...prev,
-                lat: e.target.value,
-              }))
-            }
-            className={styles.input}
-            style={{ marginTop: "20px", backgroundColor: "#fff" }}
-            label="Latitude"
-            variant="outlined"
-          />
-          <TextField
-            autoFocus
-            value={coordinates.long}
-            onChange={(e) =>
-              setCoordinates((prev) => ({
-                ...prev,
-                long: e.target.value,
-              }))
-            }
-            className={styles.input}
-            style={{ marginTop: "20px", backgroundColor: "#fff" }}
-            label="Longitude"
-            variant="outlined"
-          />
-        </div>
+        {enterManually && (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "16px",
+              marginBottom: "20px",
+            }}
+          >
+            <TextField
+              autoFocus
+              value={coordinates.lat}
+              onChange={(e) =>
+                setCoordinates((prev) => ({
+                  ...prev,
+                  lat: e.target.value,
+                }))
+              }
+              className={styles.input}
+              style={{ marginTop: "20px", backgroundColor: "#fff" }}
+              label="Latitude"
+              variant="outlined"
+            />
+            <TextField
+              autoFocus
+              value={coordinates.long}
+              onChange={(e) =>
+                setCoordinates((prev) => ({
+                  ...prev,
+                  long: e.target.value,
+                }))
+              }
+              className={styles.input}
+              style={{ marginTop: "20px", backgroundColor: "#fff" }}
+              label="Longitude"
+              variant="outlined"
+            />
+          </div>
+        )}
         <div style={{ display: "flex", flexDirection: "row", gap: "16px" }}>
           <button className={styles.location} onClick={getLocation}>
             <img
@@ -167,7 +169,7 @@ export const EnterInfo2 = ({
             className={styles.location}
             onClick={() => setEnterManually(true)}
           >
-            <text>Enter Coordinates Manually</text>
+            Enter Coordinates Manually
           </button>
         </div>
         <TextField

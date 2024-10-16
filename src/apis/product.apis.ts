@@ -69,7 +69,7 @@ export const getOrders = (
   }
   return callAPI<PaginatedResponse<IOrder>>(
     BASE_URL,
-    `/api/v1/vendor/orders?page${page}${queryParams}`,
+    `/api/v1/vendor/orders?page=${page}${queryParams}`,
     "get",
     null,
     token
@@ -90,7 +90,7 @@ export const getAllOrders = (
   }
   return callAPI<PaginatedResponse<IOrder>>(
     BASE_URL,
-    `/api/v1/order?page${page}${queryParams}`,
+    `/api/v1/order?page=${page}${queryParams}`,
     "get",
     null,
     token
@@ -111,8 +111,10 @@ export const changeOrderStatus = (
     body
   );
 };
+
+type OrderStatus = "PENDING" | "IN_TRANSIT" | "DELIVERED" | "MERCHANT_ACCEPTED" | "MERCHANT_REJECTED";
 interface AdminChangeOrderStatusBody {
-  status: string;
+  status: OrderStatus;
 }
 export const adminChangeOrderStatus = (
   orderId: string,
