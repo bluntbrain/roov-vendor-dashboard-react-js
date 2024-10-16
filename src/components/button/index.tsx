@@ -9,17 +9,22 @@ interface Props {
   children: React.ReactNode;
   disabled?: boolean;
   onClick?: () => void;
+  className?: string;
 }
+
 export const Button = ({
   loading,
   style,
   children,
   disabled,
   onClick = () => null,
+  className = "",
 }: Props) => {
   return (
     <button
-      className={`${styles.button} ${disabled ? styles.disabled : ""}`}
+      className={`${styles.button} ${
+        disabled ? styles.disabled : ""
+      } ${className}`}
       disabled={disabled}
       style={style}
       onClick={onClick}

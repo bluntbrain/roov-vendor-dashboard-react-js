@@ -7,7 +7,7 @@ import { UserContext } from "../../context/user-context";
 export const Navbar = () => {
   const [activePath, setActivePath] = useState(window.location.pathname);
 
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
     const handleLocationChange = () => {
@@ -22,8 +22,17 @@ export const Navbar = () => {
   }, []);
 
   const handleNavigation = (path: string) => {
-    navigate(path); // Assuming navigate() is your custom helper for navigation
+    navigate(path);
     setActivePath(path);
+  };
+
+  const handleLogout = () => {
+    // Clear user data from context
+    setUser({});
+    // Clear user data from localStorage
+    localStorage.removeItem("user");
+    // Navigate to login page
+    navigate("login");
   };
 
   return (
@@ -58,6 +67,12 @@ export const Navbar = () => {
             </button>
           </>
         )}
+        <button
+          className={`${styles.button} ${styles.logoutButton}`}
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
       </div>
     </nav>
   );
