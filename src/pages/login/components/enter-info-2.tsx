@@ -11,8 +11,8 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 
 type TCoordinates = {
-  lat?: number;
-  long?: number;
+  lat?: string | number;
+  long?: string | number;
 };
 
 interface Props {
@@ -29,7 +29,7 @@ interface Props {
   provision: string;
   setProvision: (val: string) => void;
   coordinates: TCoordinates;
-  setCoordinates: (val: TCoordinates) => void;
+  setCoordinates: React.Dispatch<React.SetStateAction<TCoordinates>>;
   onSubmit: () => void;
   loading: boolean;
   onBackPress: () => void;
@@ -53,20 +53,32 @@ export const EnterInfo2 = ({
   loading,
   onBackPress,
 }: Props) => {
-  const [error, setError] = useState(false);
+  const [enterManually, setEnterManually] = useState(false);
+
   const buttonDisabled =
-    !warehouse || !street || !landmark || !pincode || !city || !provision;
+    !warehouse ||
+    !street ||
+    !landmark ||
+    !pincode ||
+    !city ||
+    !provision ||
+    !coordinates.lat ||
+    !coordinates.long;
 
   const getLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
+          if (!position.coords) {
+            toast("Location information is unavailable.", {
+              type: "error",
+            });
+          }
           console.log({ latitude, longitude });
           setCoordinates({ lat: latitude, long: longitude });
         },
         (error) => {
-          setError(true);
           switch (error.code) {
             case error.PERMISSION_DENIED:
               toast("User denied the request for Geolocation.", {
@@ -104,15 +116,47 @@ export const EnterInfo2 = ({
         <h3 className={styles.content}>
           Please enter your details to continue.
         </h3>
-        {error ? (
-          <p className={styles.error}>
-            Please allow location to continue account setup
-          </p>
-        ) : coordinates.lat && coordinates.long ? (
-          <p className={styles.error} style={{ color: "#000" }}>
-            Location fetched
-          </p>
-        ) : (
+
+        {enterManually && (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "16px",
+              marginBottom: "20px",
+            }}
+          >
+            <TextField
+              autoFocus
+              value={coordinates.lat}
+              onChange={(e) =>
+                setCoordinates((prev) => ({
+                  ...prev,
+                  lat: e.target.value,
+                }))
+              }
+              className={styles.input}
+              style={{ marginTop: "20px", backgroundColor: "#fff" }}
+              label="Latitude"
+              variant="outlined"
+            />
+            <TextField
+              autoFocus
+              value={coordinates.long}
+              onChange={(e) =>
+                setCoordinates((prev) => ({
+                  ...prev,
+                  long: e.target.value,
+                }))
+              }
+              className={styles.input}
+              style={{ marginTop: "20px", backgroundColor: "#fff" }}
+              label="Longitude"
+              variant="outlined"
+            />
+          </div>
+        )}
+        <div style={{ display: "flex", flexDirection: "row", gap: "16px" }}>
           <button className={styles.location} onClick={getLocation}>
             <img
               className={styles.locationImg}
@@ -121,7 +165,13 @@ export const EnterInfo2 = ({
             />
             <text>Detect Location</text>
           </button>
-        )}
+          <button
+            className={styles.location}
+            onClick={() => setEnterManually(true)}
+          >
+            Enter Coordinates Manually
+          </button>
+        </div>
         <TextField
           autoFocus
           value={warehouse}

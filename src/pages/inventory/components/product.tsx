@@ -5,7 +5,13 @@ import styles from "../styles.module.css";
 import close from "../../../assets/icons/close.png";
 import addIcon from "../../../assets/icons/add.png"; // Make sure this icon exists in your assets
 import ImageUpload from "../../login/components/image-upload";
-import { updateQuantity, updateVariant } from "../../../apis/product.apis";
+import plus from "../../../assets/icons/plus.png";
+import minus from "../../../assets/icons/remove.png";
+import {
+  updateProduct,
+  updateQuantity,
+  updateVariant,
+} from "../../../apis/product.apis";
 import { toast } from "react-toastify";
 
 interface Props {
@@ -14,6 +20,32 @@ interface Props {
 }
 
 export const Product = ({ data, updateProducts }: Props) => {
+  const [editableProduct, setEditableProduct] = useState({
+    name: data.name || "",
+    brand: data.brand || "",
+    description: data.description || "",
+    price: data.price || 0,
+    discountedPrice: data.discountedPrice || 0,
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setEditableProduct({ ...editableProduct, [name]: value });
+  };
+
+  const handleUpdateProduct = async () => {
+    const updatedProduct = { ...editableProduct };
+    const res = await updateProduct(updatedProduct, data?._id ?? "");
+
+    if (res.data._id) {
+      // toast("Product updated successfully", { type: "success" });
+      // updateProducts(); // refresh product list
+    } else {
+      toast("Error updating product", { type: "error" });
+    }
+  };
   const [expandedVariant, setExpandedVariant] = useState<string | null>(null);
   const imageUploadRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
@@ -95,13 +127,53 @@ export const Product = ({ data, updateProducts }: Props) => {
     <div className={styles.productCard}>
       <div className={styles.productHeader}>
         <img src={data.thumbnail} alt="" className={styles.productImage} />
-        <div className={styles.productInfo}>
-          <h2 className={styles.productName}>{data.name}</h2>
-          <h3 className={styles.productBrand}>{data.brand}</h3>
-          <p className={styles.productDescription}>{data.description}</p>
-          <div className={styles.priceInfo}>
-            <span className={styles.price}>₹{data.discountedPrice}</span>
-            <span className={styles.discountedPrice}>₹{data.price}</span>
+        <div style={{ marginLeft: "10px" }}>
+          <input
+            name="name"
+            value={editableProduct.name}
+            onChange={handleChange}
+            onBlur={handleUpdateProduct}
+            className={styles.name + " " + styles.input}
+          />
+
+          <input
+            name="brand"
+            value={editableProduct.brand}
+            onChange={handleChange}
+            onBlur={handleUpdateProduct}
+            className={styles.brand + " " + styles.input}
+          />
+
+          <textarea
+            name="description"
+            value={editableProduct.description}
+            onChange={handleChange}
+            onBlur={handleUpdateProduct}
+            className={styles.description + " " + styles.input}
+          />
+          <div className={styles.row} style={{ marginTop: 10 }}>
+            <h4 className={styles.price}>
+              Price: ₹
+              <input
+                name="price"
+                value={editableProduct.price}
+                onChange={handleChange}
+                onBlur={handleUpdateProduct}
+                className={styles.input}
+                style={{ display: "inline" }}
+              />
+            </h4>
+            <h4 className={styles.price}>
+              Discounted Price: ₹
+              <input
+                name="discountedPrice"
+                value={editableProduct.discountedPrice}
+                onChange={handleChange}
+                onBlur={handleUpdateProduct}
+                className={styles.input}
+                style={{ display: "inline" }}
+              />
+            </h4>
           </div>
         </div>
       </div>

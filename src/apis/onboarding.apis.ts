@@ -21,7 +21,7 @@ export const sendOtp = (body: { phoneNumber: string }) => {
   );
 };
 export const verifyOtp = (body: { phoneNumber: string; otp: string }) => {
-  return callAPI<{ token?: string; message?: string }>(
+  return callAPI<{ token?: string; isAdmin?: boolean; message?: string }>(
     BASE_URL,
     "/api/v1/auth/verify-otp/vendor",
     "post",

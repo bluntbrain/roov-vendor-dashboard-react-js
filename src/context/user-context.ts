@@ -3,6 +3,7 @@ import { IVendor } from "../types/vendor.types";
 
 export interface IUserContext extends IVendor {
   token?: string;
+  isAdmin?: boolean;
 }
 export type TWishlistReord = Record<string, boolean>;
 

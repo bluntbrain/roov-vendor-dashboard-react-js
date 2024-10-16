@@ -11,6 +11,14 @@ export const createProduct = (body: Partial<IProduct>) => {
     body
   );
 };
+export const updateProduct = (body: Partial<IProduct>, productId: string) => {
+  return callAPI<{ data: IProduct }>(
+    BASE_URL,
+    "/api/v1/product/" + productId,
+    "put",
+    body
+  );
+};
 
 export const getProductByVendorId = (vendorId: string, page: number = 1) => {
   return callAPI<PaginatedResponse<IProduct>>(
@@ -49,7 +57,11 @@ export const updateQuantity = (body: {
 export const getOrders = (
   token: string,
   page: number = 1,
-  status?: "PENDING" | "IN_TRANSIT" | "COMPLETED" | "MERCHANT_ACCEPTED"
+  status?: | "PENDING"
+  | "IN_TRANSIT"
+  | "DELIVERED"
+  | "MERCHANT_ACCEPTED"
+  | "MERCHANT_REJECTED"
 ) => {
   let queryParams = "";
   if (!!status) {
@@ -57,7 +69,28 @@ export const getOrders = (
   }
   return callAPI<PaginatedResponse<IOrder>>(
     BASE_URL,
-    `/api/v1/vendor/orders?page${page}${queryParams}`,
+    `/api/v1/vendor/orders?page=${page}${queryParams}`,
+    "get",
+    null,
+    token
+  );
+};
+export const getAllOrders = (
+  token: string,
+  page: number = 1,
+  status?: | "PENDING"
+  | "IN_TRANSIT"
+  | "DELIVERED"
+  | "MERCHANT_ACCEPTED"
+  | "MERCHANT_REJECTED"
+) => {
+  let queryParams = "";
+  if (!!status) {
+    queryParams = `&status=${status}`;
+  }
+  return callAPI<PaginatedResponse<IOrder>>(
+    BASE_URL,
+    `/api/v1/order?page=${page}${queryParams}`,
     "get",
     null,
     token
@@ -74,6 +107,22 @@ export const changeOrderStatus = (
   return callAPI<{order?: IOrder}>(
     BASE_URL,
     "/api/v1/vendor/orders/" + orderId,
+    "put",
+    body
+  );
+};
+
+type OrderStatus = "PENDING" | "IN_TRANSIT" | "DELIVERED" | "MERCHANT_ACCEPTED" | "MERCHANT_REJECTED";
+interface AdminChangeOrderStatusBody {
+  status: OrderStatus;
+}
+export const adminChangeOrderStatus = (
+  orderId: string,
+  body: AdminChangeOrderStatusBody
+) => {
+  return callAPI<{order?: IOrder}>(
+    BASE_URL,
+    "/api/v1/vendor/orders/status/" + orderId,
     "put",
     body
   );
